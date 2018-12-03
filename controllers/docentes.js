@@ -10,6 +10,16 @@ function getAll(req,res) {
     })
 }
 
+function get(req,res) {
+    Docente.findOne({codigo: req.params.codigo},(error, docente)=>{
+        if(error) {
+            res.status(500).send(error)
+        } else {
+            res.status(200).send(docente)
+        }
+    })
+}
+
 /*
 function getIdDocente(req,res) {
     Docente.findOne({codigo: req.params.codigo},(error, docente)=>{
@@ -41,7 +51,7 @@ function createDocente(req,res) {
 }
 
 function updateDocente(req,res) {
-    Docente.findOne({nombre: req.params.nombre},(err,docente)=>{
+    Docente.findOne({"codigo": req.params.codigo},(err,docente)=>{
         docente.codigo = req.body.codigo;
         docente.nombre = req.body.nombre;
         docente.direccion = req.body.direccion;
@@ -58,4 +68,4 @@ function updateDocente(req,res) {
 }
 
 
-module.exports = {getAll,createDocente,updateDocente}
+module.exports = {getAll,createDocente,updateDocente, get}

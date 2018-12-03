@@ -15,7 +15,6 @@ app.use('/Alumno', alumnoApi)
 app.use('/Docente', docenteApi)
 app.use('/Usuario', usuarioApi)
 
-
 app.get("/", (req, res) => {
     res.status(200).send('Todo correcto')
 })

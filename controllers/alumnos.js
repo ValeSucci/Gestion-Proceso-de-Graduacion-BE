@@ -100,21 +100,23 @@ function createAlumno(req, res) {
         observaciones: bam.observaciones,
         tutor: {
             //doc: tut,
-            doc: bam.tutor._id,
+            doc: bam.tutor.doc,
             fecha_asignacion: bam.tutor.fecha_asignacion,
             cite_carta: (bam.tutor.fecha_asignacion) ? fixCite(true) : null,
             // ubicacion_carta: cartaT, //tipo = t en carta -> Tutor
-            ubicacion_carta: bam.tutor._id_carta,
+            //ubicacion_carta: bam.tutor._id_carta,
+            ubicacion_carta: "5bfc8e0bfaa2061590c0fded",
             fecha_suficiencia: bam.tutor.fecha_suficiencia,
             paga: bam.tutor.fecha_suficiencia ? false : true
         },
         revisor: {
             //doc: rev,
-            doc: bam.revisor._id,
+            doc: bam.revisor.doc,
             fecha_asignacion: bam.revisor.fecha_asignacion,
             cite_carta: bam.tutor.fecha_asignacion ? fixCite(false) : null,
             //ubicacion_carta: cartaR, //tipo = r en carta -> Revisor
-            ubicacion_carta: bam.revisor._id_carta,
+            //ubicacion_carta: bam.revisor._id_carta,
+            ubicacion_carta: "5bfc8e0bfaa2061590c0fdee",
             fecha_suficiencia: bam.revisor.fecha_suficiencia,
         },
         defensa_interna: {
