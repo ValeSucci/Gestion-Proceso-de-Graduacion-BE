@@ -76,7 +76,7 @@ var alta_materia_schema = new Schema ({
         presidente: String,
         evaluador1: String,
         evaluador2: String,
-        resultado: Boolean
+        resultado: String
     }
 
 });

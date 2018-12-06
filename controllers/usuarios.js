@@ -2,14 +2,14 @@ const Usuario = require('../models/usuarios').Usuario;
 
 function login(req, res) {
     param = req.query.param.split(' ')
-    console.log(param[0] + "-" + param[1])
+    //console.log(param[0] + "-" + param[1])
     Usuario.findOne({ username: param[0] }, (err, user) => {
-        console.log(user)
+        //console.log(user)
         if (err || user === null) {
             res.status(500).send({ message: 'Usuario inexistente' })
         } else {
             if (user.password === param[1]) {
-                res.status(200).send({ role: user.esSuper, _id: user._id })
+                res.status(200).send({ role: user.esSuper, _id: user._id, username: user.username })
                 // user.lastLogin = Date.now()
 
             } else {
@@ -19,6 +19,35 @@ function login(req, res) {
         }
     })
 }
+
+
+function updateUsuario(req,res) {
+    Usuario.findOne({username: req.params.username},(err,user)=>{
+        user.username = req.body.username;
+        user.nombre = req.body.nombre;
+        user.password = req.body.password;
+        user.telefono = req.body.telefono;
+        user.correo = req.body.correo;  
+        user.save((err)=>{
+            if(err) {
+                res.send(err)
+            } else {
+                res.send({mensaje:"Actualizacion Correcta"})
+            }
+        })
+    })
+}
+
+function get(req,res) {
+    Usuario.findOne({username: req.params.username},(error, user)=>{
+        if(error) {
+            res.status(500).send(error)
+        } else {
+            res.status(200).send(user)
+        }
+    })
+}
+
 
 /*
 function getAll(req,res) {
@@ -47,4 +76,4 @@ function createAlumno(req,res) {
 
 */
 
-module.exports = { login }
+module.exports = { login, updateUsuario, get}
