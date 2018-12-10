@@ -1,4 +1,5 @@
 const Alumno = require('../models/alumnos').Alumno;
+const AltaMateria = require('../models/alta_materia').AltaMateria;
 
 function getAll(req, res) {
     Alumno.find({}, (error, alumnos) => {
@@ -11,52 +12,52 @@ function getAll(req, res) {
 }
 
 function createAlumno(req, res) {
-    let AltaMateria = require('../models/alta_materia').AltaMateria;
     let b = req.body;
     let bam = req.body.alta_materia;
 
     let plazoC = null;
     let mes = new Date(bam.fecha).getMonth(); //del 0 al 11
+    console.log("Mes: " + mes)
     let anio = new Date(bam.fecha).getFullYear();
     if (mes <= 6 && mes !== 0) {
         //alta desde febrero hasta julio 
         if (bam.prorroga) {
             //=> plazo hasta julio del siguiente anio
-            plazoC = new Date((anio + 1), 07, 31);
+            plazoC = new Date((anio + 1), 6, 31);
 
         } else {
             //=> plazo hasta enero del siguiente anio
-            plazoC = new Date((anio + 1), 01, 31);
+            plazoC = new Date((anio + 1), 0, 31);
         }
     } else {
         //alta desde agosto hasta enero 
         if (mes === 0) {
             if (bam.prorroga) {
                 //=> plazo hasta enero del siguiente anio
-                plazoC = new Date(anio + 1, 01, 31);
+                plazoC = new Date(anio + 1, 0, 31);
             } else {
                 //=> plazo hasta julio
-                plazoC = new Date(anio, 07, 31);
+                plazoC = new Date(anio, 6, 31);
             }
         } else {
             if (bam.prorroga) {
                 //=> plazo hasta enero de dos anios despues
-                plazoC = new Date(anio + 2, 01, 31);
+                plazoC = new Date(anio + 2, 0, 31);
             } else {
                 //=> plazo hasta julio del siguiente anio
-                plazoC = new Date(anio + 1, 07, 31);
+                plazoC = new Date(anio + 1, 6, 31);
             }
         }
     }
 
 
     let Colores = require('../services/colores');
-    let estadoC = "En elaboracion";
+    let estadoC = "En Elaboración";
     let colorC = Colores.COLOR_ELABORACION;
-    if (bam.observaciones !== null || !bam.defensa_externa.resultado) {
+    if (bam.observaciones !== null && bam.observaciones !== "") {
         colorC = Colores.COLOR_OBSERVADO;
         estadoC = "Observado";
-    } else if (bam.defensa_externa.resultado) {
+    } else if (bam.defensa_externa.resultado.toLowerCase() === "aprobado") {
         colorC = Colores.COLOR_GRADUADO;
         estadoC = "Graduado";
     } else if (bam.defensa_externa.fecha !== null) {
@@ -68,10 +69,16 @@ function createAlumno(req, res) {
     } else if (bam.defensa_interna.fecha !== null) {
         colorC = Colores.COLOR_DEFENSA_INTERNA;
         estadoC = "En Defensa Interna";
-    } else if (bam.revisor !== null) {
+    } else if (bam.revisor.doc !== "") {
         colorC = Colores.COLOR_REVISOR;
         estadoC = "Con Revisor";
     }
+
+    //TODO corregir q esto se ejecute primero!! 
+    let citeT = null; //fixCite(true);
+    let citeR = null; //fixCite(false);
+    console.log("citeT: " + citeT + ", citeR: " + citeR)
+
 
     //let tut = buscarDocente(bam.tutor.codigo);
     //let rev = buscarDocente(bam.revisor.codigo);
@@ -100,9 +107,9 @@ function createAlumno(req, res) {
         observaciones: bam.observaciones,
         tutor: {
             //doc: tut,
-            doc: bam.tutor.doc,
+            doc: (bam.tutor.doc !== "") ? bam.tutor.doc : null,
             fecha_asignacion: bam.tutor.fecha_asignacion,
-            cite_carta: (bam.tutor.fecha_asignacion) ? fixCite(true) : null,
+            cite_carta: bam.tutor.fecha_asignacion ? citeT : null,
             // ubicacion_carta: cartaT, //tipo = t en carta -> Tutor
             //ubicacion_carta: bam.tutor._id_carta,
             ubicacion_carta: "5bfc8e0bfaa2061590c0fded",
@@ -111,9 +118,9 @@ function createAlumno(req, res) {
         },
         revisor: {
             //doc: rev,
-            doc: bam.revisor.doc,
+            doc: (bam.revisor.doc !== "") ? bam.revisor.doc : null,
             fecha_asignacion: bam.revisor.fecha_asignacion,
-            cite_carta: bam.tutor.fecha_asignacion ? fixCite(false) : null,
+            cite_carta: bam.revisor.fecha_asignacion ? citeR : null,
             //ubicacion_carta: cartaR, //tipo = r en carta -> Revisor
             //ubicacion_carta: bam.revisor._id_carta,
             ubicacion_carta: "5bfc8e0bfaa2061590c0fdee",
@@ -133,7 +140,7 @@ function createAlumno(req, res) {
         }
     })
     alta_materia.save().then(
-        (am)=>{
+        (am) => {
             idam = am._id
             var alumno = new Alumno({
                 codigo: b.codigo,
@@ -193,46 +200,52 @@ function getMaxCiteR() {
 }
 
 function fixCite(esTutor) {
-    //console.log(esTutor)
-    let cite;
     if (esTutor) {
-        //cite = getMaxCiteT()
-        Alumno.find({}).sort({ "alta_materia.tutor.cite_carta": -1 }).limit(1).exec((err, alumno) => {
-            console.log(alumno)
+        AltaMateria.find({}).sort({ "tutor.cite_carta": -1 }).limit(1).exec((err, altaMat) => {
             if (err) {
                 return err;
             } else {
-                if (alumno.length === 0) {
+                if (altaMat.length === 0) {
                     return '1';
                 } else {
-                    let a = alumno.alta_materia.tutor.cite_carta
-                    if (isNan(a)) {
-                        return (parseInt(a.substring(0, a.length - 1)) + 1) + a[a.length - 1]
+                    console.log("T:   " + altaMat)
+
+                    let am = altaMat[0];
+                    let c = am.tutor.cite_carta;
+                    console.log("lastCite: " + c);
+                    if (isNaN(c)) {
+                        let newC = (parseInt(c.substring(0, c.length - 1)) + 1) + c[c.length - 1]
+                        console.log(newC + "")
+                        return newC;
                     } else {
-                        return parseInt(a.substring(0, a.length - 1)) + 1;
+                        let newC = parseInt(c) + 1;
+                        console.log(newC + "")
+                        return newC
                     }
                 }
             }
         })
     } else {
-        //cite = getMaxCiteR()
-        Alumno.find({}).sort({ "alta_materia.revisor.cite_carta": -1 }).limit(1).exec((err, alumno) => {
-            console.log(alumno)
+        AltaMateria.find({}).sort({ "revisor.cite_carta": -1 }).limit(1).exec((err, altaMat) => {
             if (err) {
                 return err;
             } else {
-                if (alumno.length === 0) {
+                if (altaMat.length === 0) {
                     return '1';
                 } else {
-                    let a = alumno.alta_materia.revisor.cite_carta
-                    if (isNan(a)) {
-                        return (parseInt(a.substring(0, a.length - 1)) + 1) + a[a.length - 1]
+                    console.log("R:   " + altaMat)
+                    let am = altaMat[0];
+                    let c = am.revisor.cite_carta;
+                    console.log("lastCite: " + c);
+                    if (isNaN(c)) {
+                        return (parseInt(c.substring(0, c.length - 1)) + 1) + c[c.length - 1]
                     } else {
-                        return parseInt(a.substring(0, a.length - 1)) + 1;
+                        return parseInt(c) + 1;
                     }
                 }
             }
         })
+
     }
 }
 
@@ -260,5 +273,100 @@ function buscarCarta(t) {
     })
 }
 
+function get(req, res) {
+    Alumno.findOne({ codigo: req.params.codigo }, (error, alumno) => {
+        if (error) {
+            res.status(500).send(error)
+        } else {
+            res.status(200).send(alumno)
+        }
+    })
+}
 
-module.exports = { getAll, createAlumno }
+
+function buscar(req, res) {
+    let semestre = "\\b" + req.body.semestre + "\\b";
+    let prorroga = req.body.prorroga;
+    let estado = "\\b" + req.body.estado + "\\b";
+    let modalidad = "\\b" + req.body.modalidad + "\\b";
+    let tutor = req.body.tutor;
+    let revisor = req.body.revisor;
+    if (semestre === "\\btodos\\b") {
+        semestre = "";
+    }
+    if (estado === "\\btodos\\b") {
+        estado = "";
+    }
+    if (modalidad === "\\btodos\\b") {
+        modalidad = "";
+    }
+
+    AltaMateria.find({ "semestre": { $regex: semestre }, "estado.est": { $regex: estado }, "modalidad.mod": { $regex: modalidad } }, (error, altas) => {
+
+        if (error) {
+            //res.status(500).send(error)
+            console.log(error)
+        } else {
+            //res.status(200).send(altas)
+            //console.log(altas)
+            let aBorrar = []
+            for (let k in altas) {
+                if ((prorroga.toString() !== "todos" && altas[k].prorroga.toString() !== prorroga.toString())
+                    || (tutor.toString() !== "todos" && (altas[k].tutor.doc === null || altas[k].tutor.doc.toString() !== tutor.toString()))
+                    || (revisor.toString() !== "todos" && (altas[k].revisor.doc === null || altas[k].revisor.doc.toString() !== revisor.toString()))) {
+                    //console.log((prorroga !== "todos" && altas[k].prorroga !== prorroga))
+                    //console.log("Con: " + prorroga.toString() + " " + altas[k].prorroga.toString())
+                    aBorrar.push(k);
+                }
+            }
+            let borrados = 0;
+            for (let k in aBorrar) {
+                //console.log("k: " + k + " borr: " + borrados + "   " + altas[k - borrados].prorroga + "  " + altas[k - borrados]._id)
+
+                altas.splice(aBorrar[k] - borrados, 1)
+                borrados++;
+            }
+
+            if (req.body.alumno !== "todos") {
+                Alumno.findOne({ codigo: req.body.alumno }, (error, alumno) => {
+                    if (error) {
+                        console.log(error)
+                    } else {
+                        //console.log(alumno)
+                        for (let i in altas) {
+                            if (altas[i]._id.toString() === alumno.alta_materia[0].toString()) {
+                                console.log("encontro coincidencias en altas")
+                                res.status(200).send({ altas: [altas[i]], alumnos: [alumno] })
+                            } else {
+                                console.log("No hay nada u.u")
+                                res.status(404).send({mensaje: "No hay coincidencias"})
+                            }
+                        }
+
+                    }
+                })
+            } else {
+                let arrAlt = [];
+                for (let i in altas) {
+                    arrAlt.push(altas[i]._id)
+                }
+                console.log(arrAlt)
+                Alumno.find({ alta_materia: { $in: arrAlt } }, (error, alumnos) => {
+                    if (error) {
+                        res.status(500).send(error)
+                        console.log(error)
+                    } else {
+                        res.status(200).send({ altas: altas, alumnos: alumnos })
+                    }
+                })
+
+            }
+
+
+        }
+    })
+
+}
+
+
+module.exports = { getAll, createAlumno, get, buscar }

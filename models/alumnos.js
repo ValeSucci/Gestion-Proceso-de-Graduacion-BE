@@ -21,7 +21,7 @@ var alumno_schema = new Schema({
         //required: true,
         type: [Schema.Types.ObjectId],
         ref: 'AltaMateria'
-    } 
+    }
 });
 
 var Alumno = mongoose.model("Alumno",alumno_schema);

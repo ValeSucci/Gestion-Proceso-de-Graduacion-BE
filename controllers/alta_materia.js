@@ -27,4 +27,15 @@ function createAlumno(req,res) {
 
 */
 
-module.exports = {}
+function get(req,res) {
+    AltaMateria.findOne({_id: req.params.id},(error, alta)=>{
+        if(error) {
+            res.status(500).send(error)
+        } else {
+            res.status(200).send(alta)
+        }
+    })
+}
+
+
+module.exports = {get}
