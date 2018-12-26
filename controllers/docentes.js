@@ -11,7 +11,7 @@ function getAll(req,res) {
 }
 
 function get(req,res) {
-    Docente.findOne({codigo: req.params.codigo},(error, docente)=>{
+    Docente.findOne({_id: req.params.id},(error, docente)=>{
         if(error) {
             res.status(500).send(error)
         } else {
