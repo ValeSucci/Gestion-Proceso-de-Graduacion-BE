@@ -23,7 +23,6 @@ function login(req, res) {
 
 function updateUsuario(req,res) {
     Usuario.findOne({username: req.params.username},(err,user)=>{
-        user.username = req.body.username;
         user.nombre = req.body.nombre;
         user.password = req.body.password;
         user.telefono = req.body.telefono;
@@ -38,6 +37,23 @@ function updateUsuario(req,res) {
     })
 }
 
+function updateUsuarioAdmi(req,res) {
+    Usuario.findOne({username: req.params.username},(err,user)=>{
+        user.nombre = req.body.nombre;
+        user.password = req.body.password;
+        user.habilitado = req.body.habilitado;
+        user.fecha_fin = req.body.fecha_fin;
+        user.save((err)=>{
+            if(err) {
+                res.send(err)
+            } else {
+                res.send({mensaje:"Actualizacion Correcta"})
+            }
+        })
+    })
+}
+
+
 function get(req,res) {
     Usuario.findOne({username: req.params.username},(error, user)=>{
         if(error) {
@@ -49,24 +65,34 @@ function get(req,res) {
 }
 
 
-/*
+
 function getAll(req,res) {
-    Alumno.find({},(error, alumnos)=>{
+    Usuario.find({esSuper: false},(error, users)=>{
         if(error) {
             res.status(500).send(error)
         } else {
-            res.status(200).send(alumnos)
+            res.status(200).send(users)
         }
     })
 }
 
-function createAlumno(req,res) {
-    var alumno = new Alumno({
 
+function createUser(req,res) {
+    var user = new Usuario({
+        username: req.body.username,
+        nombre: req.body.nombre,
+        password: req.body.password,
+        telefono: req.body.telefono,
+        correo: req.body.correo,
+        habilitado: true,
+        esSuper: false,
+        fecha_inicio: Date.now(),
+        fecha_fin: null
     })
-    alumno.save().then(
-        (al)=>{
-            res.send(al);
+    user.save().then(
+        (u)=>{
+            res.send(u);
+            console.log("Usuario creado correctamente")
         },
         (error)=>{
             res.send(error);
@@ -74,6 +100,5 @@ function createAlumno(req,res) {
     )
 }
 
-*/
 
-module.exports = { login, updateUsuario, get}
+module.exports = { login, updateUsuario, get, createUser, updateUsuarioAdmi, getAll}

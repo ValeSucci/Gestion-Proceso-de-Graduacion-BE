@@ -24,12 +24,7 @@ var usuario_schema = new Schema ({
     habilitado: Boolean,
     esSuper: Boolean, 
     fecha_inicio: Date,
-    fecha_fin: Date,
-    actividades: {
-        type: [Schema.Types.ObjectId],
-        ref: 'Actividad'
-    }
-//    logged: Boolean
+    fecha_fin: Date
 });
 
 
