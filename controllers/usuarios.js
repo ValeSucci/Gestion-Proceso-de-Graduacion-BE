@@ -40,6 +40,11 @@ function updateUsuario(req,res) {
 function updateSoloAltaBaja(req,res) {
     Usuario.findOne({username: req.params.username},(err,user)=>{
         user.habilitado = !user.habilitado;
+        if(user.habilitado) {
+            user.fecha_fin = null;
+        } else {
+            user.fecha_fin = Date.now();
+        }
         user.save((err)=>{
             if(err) {
                 res.send(err)
