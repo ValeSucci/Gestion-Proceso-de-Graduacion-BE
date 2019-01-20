@@ -427,7 +427,7 @@ function updateAlumno(req, res) {
     } else if (bam.defensa_interna.fecha !== null) {
         colorC = Colores.COLOR_DEFENSA_INTERNA;
         estadoC = "En Defensa Interna";
-    } else if (bam.revisor.doc !== "" && bam.revisor !== null) {
+    } else if (bam.revisor.doc !== "" && bam.revisor.doc !== null) {
         colorC = Colores.COLOR_REVISOR;
         estadoC = "Con Revisor";
     }
