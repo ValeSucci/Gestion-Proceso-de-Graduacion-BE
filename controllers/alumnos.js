@@ -339,7 +339,7 @@ function buscar(req, res) {
                                 res.status(200).send({ altas: [altas[i]], alumnos: [alumno] })
                             } else {
                                 console.log("No hay nada u.u")
-                                res.status(404).send({mensaje: "No hay coincidencias"})
+                                res.status(404).send({ mensaje: "No hay coincidencias" })
                             }
                         }
 
@@ -444,79 +444,78 @@ function updateAlumno(req, res) {
     //let cartaT = buscarCarta(bam.tutor.tipo_carta);
     //let cartaR = buscarCarta(bam.revisor.tipo_carta);
 
-    AltaMateria.findOne({"_id": req.params.id},(err,alta_materia)=>{
+    AltaMateria.findOne({ "_id": req.params.id }, (err, alta_materia) => {
         //alta_materia.nro_alta = 1,
         alta_materia.semestre = bam.semestre,
-        alta_materia.fecha = bam.fecha,
-        alta_materia.plazo = plazoC,
-        alta_materia.prorroga = bam.prorroga,
-        alta_materia.estado = {
-            est: estadoC,
-            color: colorC
-        },
-        alta_materia.modalidad = {
-            mod: bam.modalidad.mod,
-            trabDirig: {
-                empresa: bam.modalidad.trabDirig.empresa,
-                fecha_suficiencia: bam.modalidad.trabDirig.fecha_suficiencia
-            }
-        },
-        alta_materia.tema = bam.tema,
-        alta_materia.observaciones = bam.observaciones,
-        alta_materia.tutor = {
-            //doc: tut,
-            doc: (bam.tutor.doc !== "") ? bam.tutor.doc : null,
-            fecha_asignacion: bam.tutor.fecha_asignacion,
-            cite_carta: bam.tutor.fecha_asignacion ? citeT : null,
-            // ubicacion_carta: cartaT, //tipo = t en carta -> Tutor
-            //ubicacion_carta: bam.tutor._id_carta,
-            ubicacion_carta: "5bfc8e0bfaa2061590c0fded",
-            fecha_suficiencia: bam.tutor.fecha_suficiencia,
-            paga: bam.tutor.fecha_suficiencia ? false : true
-        },
-        alta_materia.revisor = {
-            //doc: rev,
-            doc: (bam.revisor.doc !== "") ? bam.revisor.doc : null,
-            fecha_asignacion: bam.revisor.fecha_asignacion,
-            cite_carta: bam.revisor.fecha_asignacion ? citeR : null,
-            //ubicacion_carta: cartaR, //tipo = r en carta -> Revisor
-            //ubicacion_carta: bam.revisor._id_carta,
-            ubicacion_carta: "5bfc8e0bfaa2061590c0fdee",
-            fecha_suficiencia: bam.revisor.fecha_suficiencia,
-        },
-        alta_materia.defensa_interna = {
-            fecha: bam.defensa_interna.fecha,
-            resultado: bam.defensa_externa.resultado,
-            observacion: bam.defensa_interna.observacion
-        },
-        alta_materia.defensa_externa = {
-            fecha: bam.defensa_externa.fecha,
-            presidente: bam.defensa_externa.presidente,
-            evaluador1: bam.defensa_externa.evaluador1,
-            evaluador2: bam.defensa_externa.evaluador2,
-            resultado: bam.defensa_externa.resultado
-        }
-    })
-    alta_materia.save().then(
-        (am) => {
-            idam = am._id
-            Alumno.findOne({"alta_materia": idam},(err,alumno)=>{
-                alumno.codigo = b.codigo,
-                alumno.nombre = b.nombre
-                //alumno.alta_materia = [am]
-            })
-            alumno.save().then(
-                (al) => {
-                    res.send(al);
-                },
-                (error) => {
-                    console.log(error)
-                    res.send(error);
+            alta_materia.fecha = bam.fecha,
+            alta_materia.plazo = plazoC,
+            alta_materia.prorroga = bam.prorroga,
+            alta_materia.estado = {
+                est: estadoC,
+                color: colorC
+            },
+            alta_materia.modalidad = {
+                mod: bam.modalidad.mod,
+                trabDirig: {
+                    empresa: bam.modalidad.trabDirig.empresa,
+                    fecha_suficiencia: bam.modalidad.trabDirig.fecha_suficiencia
                 }
-            )
-        }
-    )
-
+            },
+            alta_materia.tema = bam.tema,
+            alta_materia.observaciones = bam.observaciones,
+            alta_materia.tutor = {
+                //doc: tut,
+                doc: (bam.tutor.doc !== "") ? bam.tutor.doc : null,
+                fecha_asignacion: bam.tutor.fecha_asignacion,
+                cite_carta: bam.tutor.fecha_asignacion ? citeT : null,
+                // ubicacion_carta: cartaT, //tipo = t en carta -> Tutor
+                //ubicacion_carta: bam.tutor._id_carta,
+                ubicacion_carta: "5bfc8e0bfaa2061590c0fded",
+                fecha_suficiencia: bam.tutor.fecha_suficiencia,
+                paga: bam.tutor.fecha_suficiencia ? false : true
+            },
+            alta_materia.revisor = {
+                //doc: rev,
+                doc: (bam.revisor.doc !== "") ? bam.revisor.doc : null,
+                fecha_asignacion: bam.revisor.fecha_asignacion,
+                cite_carta: bam.revisor.fecha_asignacion ? citeR : null,
+                //ubicacion_carta: cartaR, //tipo = r en carta -> Revisor
+                //ubicacion_carta: bam.revisor._id_carta,
+                ubicacion_carta: "5bfc8e0bfaa2061590c0fdee",
+                fecha_suficiencia: bam.revisor.fecha_suficiencia,
+            },
+            alta_materia.defensa_interna = {
+                fecha: bam.defensa_interna.fecha,
+                resultado: bam.defensa_externa.resultado,
+                observacion: bam.defensa_interna.observacion
+            },
+            alta_materia.defensa_externa = {
+                fecha: bam.defensa_externa.fecha,
+                presidente: bam.defensa_externa.presidente,
+                evaluador1: bam.defensa_externa.evaluador1,
+                evaluador2: bam.defensa_externa.evaluador2,
+                resultado: bam.defensa_externa.resultado
+            }
+        alta_materia.save((err) => {
+            if (err) {
+                res.send(err);
+            } else {
+                Alumno.findOne({ "alta_materia": req.params.id }, (err, alumno) => {
+                    alumno.codigo = b.codigo,
+                    alumno.nombre = b.nombre
+                    //alumno.alta_materia = [am]
+                    alumno.save((error) => {
+                        if (error) {
+                            console.log(error)
+                            res.send(error);
+                        } else {
+                            res.send({ mensaje: "Actualizacion Correcta" })
+                        }
+                    })
+                })
+            }
+        })
+    })
     //console.log('ida,:'+idam)
 
 
