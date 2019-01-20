@@ -444,7 +444,7 @@ function updateAlumno(req, res) {
     //let cartaT = buscarCarta(bam.tutor.tipo_carta);
     //let cartaR = buscarCarta(bam.revisor.tipo_carta);
 
-    console.log(bam[0])
+    console.log(req.body)
     AltaMateria.findOne({ "_id": req.params.id }, (err, alta_materia) => {
         //alta_materia.nro_alta = 1,
         alta_materia.semestre = bam.semestre,
@@ -503,7 +503,7 @@ function updateAlumno(req, res) {
             } else {
                 Alumno.findOne({ "alta_materia": req.params.id }, (err, alumno) => {
                     alumno.codigo = b.codigo,
-                    alumno.nombre = b.nombre
+                        alumno.nombre = b.nombre
                     //alumno.alta_materia = [am]
                     alumno.save((error) => {
                         if (error) {
