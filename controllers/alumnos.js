@@ -444,6 +444,7 @@ function updateAlumno(req, res) {
     //let cartaT = buscarCarta(bam.tutor.tipo_carta);
     //let cartaR = buscarCarta(bam.revisor.tipo_carta);
 
+    let modal = bam.modalidad.mod;
     AltaMateria.findOne({ "_id": req.params.id }, (err, alta_materia) => {
         //alta_materia.nro_alta = 1,
         alta_materia.semestre = bam.semestre,
@@ -455,7 +456,7 @@ function updateAlumno(req, res) {
                 color: colorC
             },
             alta_materia.modalidad = {
-                mod: bam.modalidad.mod,
+                mod: modal,
                 trabDirig: {
                     empresa: bam.modalidad.trabDirig.empresa,
                     fecha_suficiencia: bam.modalidad.trabDirig.fecha_suficiencia
