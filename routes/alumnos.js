@@ -7,5 +7,6 @@ api.get("/getAll",control.getAll)
 api.post("/create",control.createAlumno)
 api.get("/get/:codigo",control.get)
 api.post("/buscar", control.buscar)
+api.put("/update/:id", control.updateAlumno)
 
 module.exports = api;

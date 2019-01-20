@@ -250,7 +250,7 @@ function fixCite(esTutor) {
 }
 
 
-function buscarDocente(c) {
+/*function buscarDocente(c) {
     let Docente = require('../models/docentes').Docente;
     Docente.findOne({ codigo: c }, (error, docente) => {
         if (error) {
@@ -259,7 +259,7 @@ function buscarDocente(c) {
             res.status(200).send(docente._id)
         }
     })
-}
+}*/
 
 
 function buscarCarta(t) {
@@ -369,4 +369,167 @@ function buscar(req, res) {
 }
 
 
-module.exports = { getAll, createAlumno, get, buscar }
+function updateAlumno(req, res) {
+    let b = req.body;
+    let bam = req.body.alta_materia;
+
+    let plazoC = null;
+    let mes = new Date(bam.fecha).getMonth(); //del 0 al 11
+    console.log("Mes: " + mes)
+    let anio = new Date(bam.fecha).getFullYear();
+    if (mes <= 6 && mes !== 0) {
+        //alta desde febrero hasta julio 
+        if (bam.prorroga) {
+            //=> plazo hasta julio del siguiente anio
+            plazoC = new Date((anio + 1), 6, 31);
+
+        } else {
+            //=> plazo hasta enero del siguiente anio
+            plazoC = new Date((anio + 1), 0, 31);
+        }
+    } else {
+        //alta desde agosto hasta enero 
+        if (mes === 0) {
+            if (bam.prorroga) {
+                //=> plazo hasta enero del siguiente anio
+                plazoC = new Date(anio + 1, 0, 31);
+            } else {
+                //=> plazo hasta julio
+                plazoC = new Date(anio, 6, 31);
+            }
+        } else {
+            if (bam.prorroga) {
+                //=> plazo hasta enero de dos anios despues
+                plazoC = new Date(anio + 2, 0, 31);
+            } else {
+                //=> plazo hasta julio del siguiente anio
+                plazoC = new Date(anio + 1, 6, 31);
+            }
+        }
+    }
+
+
+    let Colores = require('../services/colores');
+    let estadoC = "En Elaboración";
+    let colorC = Colores.COLOR_ELABORACION;
+    if (bam.observaciones !== null && bam.observaciones !== "") {
+        colorC = Colores.COLOR_OBSERVADO;
+        estadoC = "Observado";
+    } else if (bam.defensa_externa.resultado.toLowerCase() === "aprobado") {
+        colorC = Colores.COLOR_GRADUADO;
+        estadoC = "Graduado";
+    } else if (bam.defensa_externa.fecha !== null) {
+        colorC = Colores.COLOR_DEFENSA_EXTERNA;
+        estadoC = "En Defensa Externa";
+    } else if (bam.defensa_interna.resultado.toLowerCase() === "diferido") {
+        colorC = Colores.COLOR_DIFERIDA;
+        estadoC = "Diferida";
+    } else if (bam.defensa_interna.fecha !== null) {
+        colorC = Colores.COLOR_DEFENSA_INTERNA;
+        estadoC = "En Defensa Interna";
+    } else if (bam.revisor.doc !== "") {
+        colorC = Colores.COLOR_REVISOR;
+        estadoC = "Con Revisor";
+    }
+
+    //TODO corregir q esto se ejecute primero!! 
+    let citeT = null; //fixCite(true);
+    let citeR = null; //fixCite(false);
+    console.log("citeT: " + citeT + ", citeR: " + citeR)
+
+
+    //let tut = buscarDocente(bam.tutor.codigo);
+    //let rev = buscarDocente(bam.revisor.codigo);
+
+    //let cartaT = buscarCarta(bam.tutor.tipo_carta);
+    //let cartaR = buscarCarta(bam.revisor.tipo_carta);
+
+    AltaMateria.findOne({"_id": req.params.id},(err,alta_materia)=>{
+        //alta_materia.nro_alta = 1,
+        alta_materia.semestre = bam.semestre,
+        alta_materia.fecha = bam.fecha,
+        alta_materia.plazo = plazoC,
+        alta_materia.prorroga = bam.prorroga,
+        alta_materia.estado = {
+            est: estadoC,
+            color: colorC
+        },
+        alta_materia.modalidad = {
+            mod: bam.modalidad.mod,
+            trabDirig: {
+                empresa: bam.modalidad.trabDirig.empresa,
+                fecha_suficiencia: bam.modalidad.trabDirig.fecha_suficiencia
+            }
+        },
+        alta_materia.tema = bam.tema,
+        alta_materia.observaciones = bam.observaciones,
+        alta_materia.tutor = {
+            //doc: tut,
+            doc: (bam.tutor.doc !== "") ? bam.tutor.doc : null,
+            fecha_asignacion: bam.tutor.fecha_asignacion,
+            cite_carta: bam.tutor.fecha_asignacion ? citeT : null,
+            // ubicacion_carta: cartaT, //tipo = t en carta -> Tutor
+            //ubicacion_carta: bam.tutor._id_carta,
+            ubicacion_carta: "5bfc8e0bfaa2061590c0fded",
+            fecha_suficiencia: bam.tutor.fecha_suficiencia,
+            paga: bam.tutor.fecha_suficiencia ? false : true
+        },
+        alta_materia.revisor = {
+            //doc: rev,
+            doc: (bam.revisor.doc !== "") ? bam.revisor.doc : null,
+            fecha_asignacion: bam.revisor.fecha_asignacion,
+            cite_carta: bam.revisor.fecha_asignacion ? citeR : null,
+            //ubicacion_carta: cartaR, //tipo = r en carta -> Revisor
+            //ubicacion_carta: bam.revisor._id_carta,
+            ubicacion_carta: "5bfc8e0bfaa2061590c0fdee",
+            fecha_suficiencia: bam.revisor.fecha_suficiencia,
+        },
+        alta_materia.defensa_interna = {
+            fecha: bam.defensa_interna.fecha,
+            resultado: bam.defensa_externa.resultado,
+            observacion: bam.defensa_interna.observacion
+        },
+        alta_materia.defensa_externa = {
+            fecha: bam.defensa_externa.fecha,
+            presidente: bam.defensa_externa.presidente,
+            evaluador1: bam.defensa_externa.evaluador1,
+            evaluador2: bam.defensa_externa.evaluador2,
+            resultado: bam.defensa_externa.resultado
+        }
+    })
+    alta_materia.save().then(
+        (am) => {
+            idam = am._id
+            Alumno.findOne({"alta_materia": idam},(err,alumno)=>{
+                alumno.codigo = b.codigo,
+                alumno.nombre = b.nombre
+                //alumno.alta_materia = [am]
+            })
+            alumno.save().then(
+                (al) => {
+                    res.send(al);
+                },
+                (error) => {
+                    console.log(error)
+                    res.send(error);
+                }
+            )
+        }
+    )
+
+    //console.log('ida,:'+idam)
+
+
+    /*
+    Alumno.find({codigo:b.codigo}).populate('alta_materia').exec((err, al)=>{
+        if(err) return console.log(err)
+        console.log(al)
+    })*/
+
+
+}
+
+
+
+
+module.exports = { getAll, createAlumno, get, buscar, updateAlumno }
