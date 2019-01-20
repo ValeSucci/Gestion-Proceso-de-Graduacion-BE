@@ -11,6 +11,7 @@ api.put("/update/:username", control.updateUsuario)
 api.put("/updateAdmi/:username", control.updateUsuarioAdmi)
 api.get("/getAll", control.getAll)
 api.post("/create", control.createUser)
+api.put("/updateAltaBaja/:username", control.updateSoloAltaBaja)
 
 api.get("/", (req, res) => {
     res.status(200).send('Todo correcto en usuario')

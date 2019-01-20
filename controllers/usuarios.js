@@ -37,6 +37,19 @@ function updateUsuario(req,res) {
     })
 }
 
+function updateSoloAltaBaja(req,res) {
+    Usuario.findOne({username: req.params.username},(err,user)=>{
+        user.habilitado = !user.habilitado;
+        user.save((err)=>{
+            if(err) {
+                res.send(err)
+            } else {
+                res.send({mensaje:"Actualizacion Correcta"})
+            }
+        })
+    })
+}
+
 function updateUsuarioAdmi(req,res) {
     Usuario.findOne({username: req.params.username},(err,user)=>{
         user.nombre = req.body.nombre;
@@ -101,4 +114,4 @@ function createUser(req,res) {
 }
 
 
-module.exports = { login, updateUsuario, get, createUser, updateUsuarioAdmi, getAll}
+module.exports = { login, updateUsuario, get, createUser, updateUsuarioAdmi, getAll, updateSoloAltaBaja}
