@@ -444,7 +444,7 @@ function updateAlumno(req, res) {
     //let cartaT = buscarCarta(bam.tutor.tipo_carta);
     //let cartaR = buscarCarta(bam.revisor.tipo_carta);
 
-    console.log(bam)
+    console.log(bam[0])
     AltaMateria.findOne({ "_id": req.params.id }, (err, alta_materia) => {
         //alta_materia.nro_alta = 1,
         alta_materia.semestre = bam.semestre,
