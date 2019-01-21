@@ -128,7 +128,7 @@ function createAlumno(req, res) {
         },
         defensa_interna: {
             fecha: bam.defensa_interna.fecha,
-            resultado: bam.defensa_externa.resultado,
+            resultado: bam.defensa_interna.resultado,
             observacion: bam.defensa_interna.observacion
         },
         defensa_externa: {
@@ -487,7 +487,7 @@ function updateAlumno(req, res) {
             },
             alta_materia.defensa_interna = {
                 fecha: bam.defensa_interna.fecha,
-                resultado: bam.defensa_externa.resultado,
+                resultado: bam.defensa_interna.resultado,
                 observacion: bam.defensa_interna.observacion
             },
             alta_materia.defensa_externa = {
