@@ -532,7 +532,7 @@ function updateAlumno(req, res) {
 
 function buscarPorTema(req, res) {
 
-    let t = "/"+req.body.tema+"/";
+    let t = req.body.tema;
     AltaMateria.find({ "tema": { $regex: t } }, (error, altas) => {
 
         if (error) {
