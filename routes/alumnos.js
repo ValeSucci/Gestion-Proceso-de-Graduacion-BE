@@ -8,5 +8,6 @@ api.post("/create",control.createAlumno)
 api.get("/get/:codigo",control.get)
 api.post("/buscar", control.buscar)
 api.put("/update/:id", control.updateAlumno)
+api.post("/buscarPorTema", control.buscarPorTema)
 
 module.exports = api;

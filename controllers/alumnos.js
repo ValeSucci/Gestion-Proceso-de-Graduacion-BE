@@ -530,6 +530,32 @@ function updateAlumno(req, res) {
 }
 
 
+function buscarPorTema(req, res) {
+
+    let t = "/"+req.body.tema+"/";
+    AltaMateria.find({ "tema": { $regex: t } }, (error, altas) => {
+
+        if (error) {
+            //res.status(500).send(error)
+            console.log(error)
+        } else {
+            let arrAlt = [];
+            for (let i in altas) {
+                arrAlt.push(altas[i]._id)
+            }
+            console.log(arrAlt)
+            Alumno.find({ alta_materia: { $in: arrAlt } }, (error, alumnos) => {
+                if (error) {
+                    res.status(500).send(error)
+                    console.log(error)
+                } else {
+                    res.status(200).send({ altas: altas, alumnos: alumnos })
+                }
+            })
+        }
+    })
+}
 
 
-module.exports = { getAll, createAlumno, get, buscar, updateAlumno }
+
+module.exports = { getAll, createAlumno, get, buscar, updateAlumno, buscarPorTema }
