@@ -20,6 +20,16 @@ function get(req,res) {
     })
 }
 
+function getById(req,res) {
+    Docente.findOne({_id: req.params.id},(error, docente)=>{
+        if(error) {
+            res.status(500).send(error)
+        } else {
+            res.status(200).send(docente)
+        }
+    })
+}
+
 /*
 function getIdDocente(req,res) {
     Docente.findOne({codigo: req.params.codigo},(error, docente)=>{
@@ -68,4 +78,4 @@ function updateDocente(req,res) {
 }
 
 
-module.exports = {getAll,createDocente,updateDocente, get}
+module.exports = {getAll,createDocente,updateDocente, get, getById}
