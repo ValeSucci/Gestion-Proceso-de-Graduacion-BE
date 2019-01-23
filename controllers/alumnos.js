@@ -373,8 +373,8 @@ function buscar(req, res) {
                 for (let i in altas) {
                     //arrAlt.push(altas[i]._id)
 
-                    //                    console.log(arrAlt)
-                    Alumno.find({ alta_materia: { $in: [altas[i]._id] } }, (error, alumno) => {
+                    console.log("Alta: "+altas[i]._id)
+                    Alumno.find({ alta_materia: altas[i]._id }, (error, alumno) => {
                         if (error) {
                             res.status(500).send(error)
                             console.log(error)
