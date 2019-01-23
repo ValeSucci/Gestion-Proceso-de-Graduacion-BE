@@ -373,15 +373,16 @@ function buscar(req, res) {
                 for (let i in altas) {
                     //arrAlt.push(altas[i]._id)
 
-    //                console.log("Alta: " + altas[i]._id)
+                    console.log("Alta: " + altas[i]._id)
                     Alumno.findOne({ alta_materia: altas[i]._id }, (error, alumno) => {
                         if (error) {
                             res.status(500).send(error)
                             console.log(error)
                         } else {
-//                            console.log(alumno)
-                            arrAlumnos.push(alumno);
+                            console.log(alumno.nombre)
+                            arrAlumnos.push("Alumno:"+alumno);
                             if(arrAlumnos.length === altas.length) {
+                                console.log("Guardando")
                                 res.status(200).send({ altas: altas, alumnos: arrAlumnos })
                             }
                         }
