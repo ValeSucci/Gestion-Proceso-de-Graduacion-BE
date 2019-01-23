@@ -387,7 +387,8 @@ function buscar(req, res) {
                 if (arrAlumnos.length > 0) {
                     res.status(200).send({ altas: altas, alumnos: arrAlumnos })
                 } else {
-                    //res.status(500).send(error)
+                    console.log("Sin coincidencias")
+                    res.status(500).send(error)
                 }
 
             }
