@@ -382,7 +382,7 @@ function buscar(req, res) {
                             console.log(alumno)
                             arrAlumnos.push(alumno);
                             if(arrAlumnos.length === altas.length) {
-                                res.status(200).send({ altas: altas, alumnos: alumnos })
+                                res.status(200).send({ altas: altas, alumnos: arrAlumnos })
                             }
                         }
                     })
