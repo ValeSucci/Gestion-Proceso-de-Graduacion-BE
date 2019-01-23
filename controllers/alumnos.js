@@ -384,7 +384,7 @@ function buscar(req, res) {
                                         }
                                     }
                                 } else {
-                                    alumnos.add(alumnos[alumnos.length - 1])
+                                    alumnos.push(alumnos[alumnos.length - 1])
                                 }
                                 console.log("altas: " + altas + " -- alumnos: " + alumnos)
                             }
