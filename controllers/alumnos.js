@@ -375,7 +375,8 @@ function buscar(req, res) {
                             for (let i in arrAlt) {
                                 if (i < alumnos.length) {
                                     console.log("index: "+i)
-                                    console.log(alumnos[i].alta_materia+" -- "+arrAlt[i])
+                                    console.log(alumnos[i].alta_materia)
+                                    console.log(" -- "+arrAlt[i].toString())
                                     if (!alumnos[i].alta_materia.includes(arrAlt[i].toString())) {
                                         console.log("No contiene")
                                         //buscar a cual pertenece
