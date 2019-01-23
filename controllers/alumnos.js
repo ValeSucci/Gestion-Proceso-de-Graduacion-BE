@@ -13,7 +13,7 @@ function getAll(req, res) {
 
 function createAlumno(req, res) {
     let b = req.body;
-    let bam = req.body.alta_materia;
+    let bam = req.body.alta_materia[0];
 
     let plazoC = null;
     let mes = new Date(bam.fecha).getMonth(); //del 0 al 11
@@ -371,7 +371,7 @@ function buscar(req, res) {
 
 function updateAlumno(req, res) {
     let b = req.body.alumno;
-    let bam = req.body.alta;
+    let bam = req.body.alta[req.body.alta_materia.length-1];
 
     let plazoC = null;
     let mes = new Date(bam.fecha).getMonth(); //del 0 al 11
@@ -560,7 +560,7 @@ function buscarPorTema(req, res) {
 
 function nuevaAltaAlumno(req, res) {
     let b = req.body;
-    let bam = req.body.alta_materia;
+    let bam = req.body.alta_materia[req.body.alta_materia.length-1];
 
     let plazoC = null;
     let mes = new Date(bam.fecha).getMonth(); //del 0 al 11
