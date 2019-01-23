@@ -384,7 +384,7 @@ function buscar(req, res) {
                                         for (let j in alumnos) {
                                             if (alumnos[j].alta_materia.indexOf(arrAlt[i].toString()) >=0) {
                                                 alumnos.splice(i, 0, alumnos[j])
-                                                console.log("aniadiendo "+alumno[j].nombre+" a index"+i)
+                                                console.log("aniadiendo "+alumnos[j].nombre+" a index"+i)
                                                 break;
                                             }
                                         }
