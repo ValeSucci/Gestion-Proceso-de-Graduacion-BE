@@ -332,7 +332,7 @@ function buscar(req, res) {
                     if (error) {
                         console.log(error)
                     } else {
-                        console.log("Alumno: "+alumno)
+                        console.log("Alumno: " + alumno)
                         let arrAltas = [];
                         let arrAlum = [];
                         for (let i in altas) {
@@ -348,7 +348,7 @@ function buscar(req, res) {
                                 }
                             }
                         }
-                        if(arrAltas.length > 0) {
+                        if (arrAltas.length > 0) {
                             res.status(200).send({ altas: arrAltas, alumnos: arrAlum })
                         } else {
                             res.status(404).send({ mensaje: "No hay coincidencias" })
@@ -373,7 +373,7 @@ function buscar(req, res) {
                 for (let i in altas) {
                     //arrAlt.push(altas[i]._id)
 
-                    console.log("Alta: "+altas[i]._id)
+                    console.log("Alta: " + altas[i]._id)
                     Alumno.find({ alta_materia: altas[i]._id }, (error, alumno) => {
                         if (error) {
                             res.status(500).send(error)
@@ -381,17 +381,18 @@ function buscar(req, res) {
                         } else {
                             console.log(alumno)
                             arrAlumnos.push(alumno);
-                            //res.status(200).send({ altas: altas, alumnos: alumnos })
+                            if(arrAlumnos.length === altas.length) {
+                                res.status(200).send({ altas: altas, alumnos: alumnos })
+                            }
                         }
                     })
                 }
-                if (arrAlumnos.length > 0) {
+                /*if (arrAlumnos.length > 0) {
                     res.status(200).send({ altas: altas, alumnos: arrAlumnos })
                 } else {
                     console.log("Sin coincidencias")
                     //res.status(500).send(error)
-                }
-
+                }*/
             }
 
 
