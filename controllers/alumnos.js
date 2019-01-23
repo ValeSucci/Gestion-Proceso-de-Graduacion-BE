@@ -348,7 +348,7 @@ function buscar(req, res) {
                                 }
                             }
                         }
-                        if(arrAltas > 0) {
+                        if(arrAltas.length > 0) {
                             res.status(200).send({ altas: arrAltas, alumnos: [arrAlum] })
                         } else {
                             res.status(404).send({ mensaje: "No hay coincidencias" })
