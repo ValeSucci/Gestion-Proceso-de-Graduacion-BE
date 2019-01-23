@@ -374,17 +374,17 @@ function buscar(req, res) {
                         } else {
                             for (let i in arrAlt) {
                                 if (i < alumnos.length) {
-                                    console.log("index: "+i)
+                                    console.log("index: " + i)
                                     console.log(alumnos[i].alta_materia)
-                                    console.log(" -- "+arrAlt[i].toString())
+                                    console.log(" -- " + arrAlt[i].toString())
                                     console.log(alumnos[i].alta_materia.indexOf(arrAlt[i].toString()))
                                     if (alumnos[i].alta_materia.indexOf(arrAlt[i].toString()) < 0) {
                                         console.log("No contiene")
                                         //buscar a cual pertenece
                                         for (let j in alumnos) {
-                                            if (alumnos[j].alta_materia.indexOf(arrAlt[i].toString()) >=0) {
+                                            if (alumnos[j].alta_materia.indexOf(arrAlt[i].toString()) >= 0) {
                                                 alumnos.splice(i, 0, alumnos[j])
-                                                console.log("aniadiendo "+alumnos[j].nombre+" a index"+i)
+                                                console.log("aniadiendo " + alumnos[j].nombre + " a index" + i)
                                                 break;
                                             }
                                         }
@@ -779,7 +779,30 @@ function nuevaAltaAlumno(req, res) {
 
 }
 
+function openWord(req,res) {
+    let cargo = req.params.cargo;
+    let bam = req.body;
+    let file = "C:\\Vale\\UPB\\Práctica Interna\\GR.ES.D.01 Carta Nombramiento Tutor V 1.1";
+    /*if(cargo === 'T') {
+        bam.tutor.ubicacion_carta;
+    } else if(cargo === 'R') {
+        bam.revisor.ubicacion_carta;
+    }*/
+    try {
+        var objword = new ActiveXObject("Word.Application");
+    } catch (e) {
+        alert(e + 'Error Word');
+    }
+
+    if (objword != null) {
+        objword.Visible = true;
+        objword.Documents.Open(file);
+        objword.WindowState = 2;
+        objword.WindowState = 1;
+    }
+}
 
 
 
-module.exports = { getAll, createAlumno, get, buscar, updateAlumno, buscarPorTema, nuevaAltaAlumno }
+
+module.exports = { getAll, createAlumno, get, buscar, updateAlumno, buscarPorTema, nuevaAltaAlumno, openWord}
