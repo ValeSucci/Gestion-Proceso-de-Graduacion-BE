@@ -357,6 +357,7 @@ function buscar(req, res) {
                 })
             } else {
                 let arrAlt = [];
+                let arrAlumnos = []
                 for (let i in altas) {
                     arrAlt.push(altas[i]._id)
                 }
@@ -366,9 +367,33 @@ function buscar(req, res) {
                         res.status(500).send(error)
                         console.log(error)
                     } else {
-                        res.status(200).send({ altas: altas, alumnos: alumnos })
+                        arrAlumnos = alumnos;
+                        //res.status(200).send({ altas: altas, alumnos: alumnos })
                     }
                 })
+
+                if (altas.length === alumnos.length) {
+                    res.status(200).send({ altas: altas, alumnos: alumnos })
+                } else {
+                    for (let i in altas) {
+                        if (alumnos[i].alta_materia.includes(altas[i])) {
+                            //Todo bien
+                        } else {
+                            //buscar a cual pertenece
+                            for (let j in alumnos) {
+                                if (alumnos[j].alta_materia.includes(altas[i])) {
+                                    alumnos.splice(i, 0, alumnos[j])
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    console.log("altas: " + altas + " -- alumnos: " + alumnos)
+                }
+
+                if (altas.length === alumnos.length) {
+                    res.status(200).send({ altas: altas, alumnos: alumnos })
+                }
                 /*let arrAlumnos = [];
                 for (let i in altas) {
                     //arrAlt.push(altas[i]._id)
