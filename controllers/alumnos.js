@@ -334,19 +334,21 @@ function buscar(req, res) {
                     } else {
                         //console.log(alumno)
                         for (let i in altas) {
-                            if (altas[i]._id.toString() === alumno.alta_materia[0].toString()) {
-                                console.log("encontro coincidencias en altas")
-                                res.status(200).send({ altas: [altas[i]], alumnos: [alumno] })
-                            } else {
-                                console.log("No hay nada u.u")
-                                res.status(404).send({ mensaje: "No hay coincidencias" })
+                            for (let j in alumno.alta_materia) {
+                                if (altas[i]._id.toString() === alumno.alta_materia[j].toString()) {
+                                    console.log("encontro coincidencias en altas")
+                                    res.status(200).send({ altas: [altas[i]], alumnos: [alumno] })
+                                } else {
+                                    console.log("No hay nada u.u")
+                                    res.status(404).send({ mensaje: "No hay coincidencias" })
+                                }
                             }
                         }
 
                     }
                 })
             } else {
-                let arrAlt = [];
+                /*let arrAlt = [];
                 for (let i in altas) {
                     arrAlt.push(altas[i]._id)
                 }
@@ -358,7 +360,27 @@ function buscar(req, res) {
                     } else {
                         res.status(200).send({ altas: altas, alumnos: alumnos })
                     }
-                })
+                })*/
+                let arrAlumnos = [];
+                for (let i in altas) {
+                    //arrAlt.push(altas[i]._id)
+
+                    //                    console.log(arrAlt)
+                    Alumno.find({ alta_materia: { $in: [altas[i]._id] } }, (error, alumno) => {
+                        if (error) {
+                            //res.status(500).send(error)
+                            console.log(error)
+                        } else {
+                            arrAlumnos.push(alumno);
+                            //res.status(200).send({ altas: altas, alumnos: alumnos })
+                        }
+                    })
+                }
+                if (arrAlumnos > 0) {
+                    res.status(200).send({ altas: altas, alumnos: alumnos })
+                } else {
+                    res.status(500).send(error)
+                }
 
             }
 
@@ -371,7 +393,7 @@ function buscar(req, res) {
 
 function updateAlumno(req, res) {
     let b = req.body.alumno;
-    let bam = req.body.alta[req.body.alta_materia.length-1];
+    let bam = req.body.alta[req.body.alta_materia.length - 1];
 
     let plazoC = null;
     let mes = new Date(bam.fecha).getMonth(); //del 0 al 11
@@ -560,7 +582,7 @@ function buscarPorTema(req, res) {
 
 function nuevaAltaAlumno(req, res) {
     let b = req.body;
-    let bam = req.body.alta_materia[req.body.alta_materia.length-1];
+    let bam = req.body.alta_materia[req.body.alta_materia.length - 1];
 
     let plazoC = null;
     let mes = new Date(bam.fecha).getMonth(); //del 0 al 11
@@ -691,8 +713,8 @@ function nuevaAltaAlumno(req, res) {
             idam = am._id
             Alumno.findOne({ "codigo": req.params.codigo }, (err, alumno) => {
                 alumno.codigo = b.codigo,
-                alumno.nombre = b.nombre,
-                alumno.alta_materia.push(am)
+                    alumno.nombre = b.nombre,
+                    alumno.alta_materia.push(am)
                 alumno.save((error) => {
                     if (error) {
                         console.log(error)
@@ -702,7 +724,7 @@ function nuevaAltaAlumno(req, res) {
                     }
                 })
             })
-    }
+        }
     )
 
     //console.log('ida,:'+idam)
