@@ -384,7 +384,7 @@ function buscar(req, res) {
                                         }
                                     }
                                 } else {
-                                    alumnos.add(alumnos[alumnos.length-1])
+                                    alumnos.add(alumnos[alumnos.length - 1])
                                 }
                                 console.log("altas: " + altas + " -- alumnos: " + alumnos)
                             }
@@ -394,7 +394,8 @@ function buscar(req, res) {
                             }
 
                         }
-                    })
+                    }
+                })
 
                 /*let arrAlumnos = [];
                 for (let i in altas) {
