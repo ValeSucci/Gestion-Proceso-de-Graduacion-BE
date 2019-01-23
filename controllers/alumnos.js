@@ -792,10 +792,11 @@ function openWord(req, res) {
     var objword = new ActiveXObject("Word.Application");
 
     objword.Visible = true;
-    objword.Documents.Open(file);}
-//    objword.WindowState = 2;
-//    objword.WindowState = 1;
+    objword.Documents.Open(file);
+    //    objword.WindowState = 2;
+    //    objword.WindowState = 1;
 }
+
 
 
 
