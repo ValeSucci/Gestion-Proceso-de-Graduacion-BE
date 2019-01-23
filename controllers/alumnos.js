@@ -387,11 +387,11 @@ function buscar(req, res) {
                                 console.log("Guardando: ")
                                 res.status(200).send({ altas: altas, alumnos: arrAlumnos })
                             }
+                            if (arrAlumnos.length === i + 1) {
+                                i++;
+                            }
                         }
                     })
-                    setTimeout(function () {
-                        i++;
-                    }, 200);
                 }
             }
         }
