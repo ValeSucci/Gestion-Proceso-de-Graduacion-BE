@@ -369,31 +369,33 @@ function buscar(req, res) {
                     } else {
                         arrAlumnos = alumnos;
                         //res.status(200).send({ altas: altas, alumnos: alumnos })
-                    }
-                })
-
-                if (altas.length === alumnos.length) {
-                    res.status(200).send({ altas: altas, alumnos: alumnos })
-                } else {
-                    for (let i in altas) {
-                        if (alumnos[i].alta_materia.includes(altas[i])) {
-                            //Todo bien
+                        if (altas.length === alumnos.length) {
+                            res.status(200).send({ altas: altas, alumnos: alumnos })
                         } else {
-                            //buscar a cual pertenece
-                            for (let j in alumnos) {
-                                if (alumnos[j].alta_materia.includes(altas[i])) {
-                                    alumnos.splice(i, 0, alumnos[j])
-                                    break;
+                            for (let i in altas) {
+                                if (i < alumnos.length) {
+                                    if (!alumnos[i].alta_materia.includes(altas[i])) {
+                                        //buscar a cual pertenece
+                                        for (let j in alumnos) {
+                                            if (alumnos[j].alta_materia.includes(altas[i])) {
+                                                alumnos.splice(i, 0, alumnos[j])
+                                                break;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    alumnos.add(alumnos[alumnos.length-1])
                                 }
+                                console.log("altas: " + altas + " -- alumnos: " + alumnos)
                             }
-                        }
-                    }
-                    console.log("altas: " + altas + " -- alumnos: " + alumnos)
-                }
 
-                if (altas.length === alumnos.length) {
-                    res.status(200).send({ altas: altas, alumnos: alumnos })
-                }
+                            if (altas.length === alumnos.length) {
+                                res.status(200).send({ altas: altas, alumnos: alumnos })
+                            }
+
+                        }
+                    })
+
                 /*let arrAlumnos = [];
                 for (let i in altas) {
                     //arrAlt.push(altas[i]._id)
