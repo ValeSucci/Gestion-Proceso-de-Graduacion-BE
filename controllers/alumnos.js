@@ -332,7 +332,7 @@ function buscar(req, res) {
                     if (error) {
                         console.log(error)
                     } else {
-                        //console.log(alumno)
+                        console.log("Alumno: "+alumno)
                         for (let i in altas) {
                             for (let j in alumno.alta_materia) {
                                 if (altas[i]._id.toString() === alumno.alta_materia[j].toString()) {
@@ -340,7 +340,7 @@ function buscar(req, res) {
                                     res.status(200).send({ altas: [altas[i]], alumnos: [alumno] })
                                 } else {
                                     console.log("No hay nada u.u")
-                                    res.status(404).send({ mensaje: "No hay coincidencias" })
+                                    //res.status(404).send({ mensaje: "No hay coincidencias" })
                                 }
                             }
                         }
