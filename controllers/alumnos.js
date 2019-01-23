@@ -374,7 +374,10 @@ function buscar(req, res) {
                         } else {
                             for (let i in altas) {
                                 if (i < alumnos.length) {
+                                    console.log("index: "+i)
+                                    console.log(alumnos[i].alta_materia+" -- "+altas[i])
                                     if (!alumnos[i].alta_materia.includes(altas[i])) {
+                                        console.log("No contiene")
                                         //buscar a cual pertenece
                                         for (let j in alumnos) {
                                             if (alumnos[j].alta_materia.includes(altas[i])) {
