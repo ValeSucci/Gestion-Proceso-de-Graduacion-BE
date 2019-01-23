@@ -379,10 +379,10 @@ function buscar(req, res) {
                             res.status(500).send(error)
                             console.log(error)
                         } else {
-                            console.log(alumno.nombre)
-                            arrAlumnos.push("Alumno:"+alumno);
+                            console.log("Alumno: "+alumno.nombre)
+                            arrAlumnos.push(alumno);
                             if(arrAlumnos.length === altas.length) {
-                                console.log("Guardando")
+                                console.log("Guardando: ")
                                 res.status(200).send({ altas: altas, alumnos: arrAlumnos })
                             }
                         }
