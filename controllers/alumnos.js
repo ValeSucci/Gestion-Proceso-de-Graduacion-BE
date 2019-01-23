@@ -779,30 +779,25 @@ function nuevaAltaAlumno(req, res) {
 
 }
 
-function openWord(req,res) {
-    let cargo = req.params.cargo;
-    let bam = req.body;
-    let file = "C:\\Vale\\UPB\\Práctica Interna\\GR.ES.D.01 Carta Nombramiento Tutor V 1.1";
+function openWord(req, res) {
+    //let cargo = req.params.cargo;
+    //let bam = req.body;
+    //let file = "C:\\Vale\\UPB\\Práctica Interna\\GR.ES.D.01 Carta Nombramiento Tutor V 1.1";
     /*if(cargo === 'T') {
         bam.tutor.ubicacion_carta;
     } else if(cargo === 'R') {
         bam.revisor.ubicacion_carta;
     }*/
-    try {
-        var objword = new ActiveXObject("Word.Application");
-    } catch (e) {
-        alert(e + 'Error Word');
-    }
+    let file = "C:\\example.docx";
+    var objword = new ActiveXObject("Word.Application");
 
-    if (objword != null) {
-        objword.Visible = true;
-        objword.Documents.Open(file);
-        objword.WindowState = 2;
-        objword.WindowState = 1;
-    }
+    objword.Visible = true;
+    objword.Documents.Open(file);}
+//    objword.WindowState = 2;
+//    objword.WindowState = 1;
 }
 
 
 
 
-module.exports = { getAll, createAlumno, get, buscar, updateAlumno, buscarPorTema, nuevaAltaAlumno, openWord}
+module.exports = { getAll, createAlumno, get, buscar, updateAlumno, buscarPorTema, nuevaAltaAlumno, openWord }
