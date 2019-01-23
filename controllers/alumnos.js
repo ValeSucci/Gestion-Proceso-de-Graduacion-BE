@@ -797,10 +797,10 @@ function openWord2(req, res) {
     //    objword.WindowState = 1;
 }
 
-
+/*
 function openWord(req, res) {
     let data = { first_name: 'John', last_name: 'Doe' };
-    let file = "C:\\example.docx";
+    let file = "C:/example.docx";
 
     var JSZip = require('jszip');
     var Docxtemplater = require('docxtemplater');
@@ -841,11 +841,33 @@ function openWord(req, res) {
 
     return path.resolve(__dirname.replace('tmpdocs', data.doc + file));
     
+}*/
+
+/*
+function readSingleFile(e) {
+    var file = e.target.files[0];
+    if (!file) {
+        return;
+    }
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        var contents = e.target.result;
+        displayContents(contents);
+    };
+    reader.readAsText(file);
 }
 
+function displayContents(contents) {
+    var element = document.getElementById('file-content');
+    element.textContent = contents;
+}
+
+document.getElementById('file-input')
+    .addEventListener('change', readSingleFile, false);
+*/
 
 
 
 
 
-module.exports = { getAll, createAlumno, get, buscar, updateAlumno, buscarPorTema, nuevaAltaAlumno, openWord }
+module.exports = { getAll, createAlumno, get, buscar, updateAlumno, buscarPorTema, nuevaAltaAlumno }
