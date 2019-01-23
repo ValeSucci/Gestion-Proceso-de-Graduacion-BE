@@ -373,13 +373,13 @@ function buscar(req, res) {
                 for (let i in altas) {
                     //arrAlt.push(altas[i]._id)
 
-                    console.log("Alta: " + altas[i]._id)
+    //                console.log("Alta: " + altas[i]._id)
                     Alumno.findOne({ alta_materia: altas[i]._id }, (error, alumno) => {
                         if (error) {
                             res.status(500).send(error)
                             console.log(error)
                         } else {
-                            console.log(alumno)
+//                            console.log(alumno)
                             arrAlumnos.push(alumno);
                             if(arrAlumnos.length === altas.length) {
                                 res.status(200).send({ altas: altas, alumnos: arrAlumnos })
@@ -387,15 +387,7 @@ function buscar(req, res) {
                         }
                     })
                 }
-                /*if (arrAlumnos.length > 0) {
-                    res.status(200).send({ altas: altas, alumnos: arrAlumnos })
-                } else {
-                    console.log("Sin coincidencias")
-                    //res.status(500).send(error)
-                }*/
             }
-
-
         }
     })
 
