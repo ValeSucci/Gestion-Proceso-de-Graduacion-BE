@@ -376,7 +376,7 @@ function buscar(req, res) {
                     //                    console.log(arrAlt)
                     Alumno.find({ alta_materia: { $in: [altas[i]._id] } }, (error, alumno) => {
                         if (error) {
-                            //res.status(500).send(error)
+                            res.status(500).send(error)
                             console.log(error)
                         } else {
                             arrAlumnos.push(alumno);
@@ -387,7 +387,7 @@ function buscar(req, res) {
                 if (arrAlumnos.length > 0) {
                     res.status(200).send({ altas: altas, alumnos: arrAlumnos })
                 } else {
-                    res.status(500).send(error)
+                    //res.status(500).send(error)
                 }
 
             }
