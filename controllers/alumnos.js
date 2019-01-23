@@ -333,18 +333,26 @@ function buscar(req, res) {
                         console.log(error)
                     } else {
                         console.log("Alumno: "+alumno)
+                        let arrAltas = [];
+                        let arrAlum = [];
                         for (let i in altas) {
                             for (let j in alumno.alta_materia) {
                                 if (altas[i]._id.toString() === alumno.alta_materia[j].toString()) {
                                     console.log("encontro coincidencias en altas")
-                                    res.status(200).send({ altas: [altas[i]], alumnos: [alumno] })
+                                    arrAltas.push(altas[i]);
+                                    arrAlum.push(alumno);
+                                    //res.status(200).send({ altas: [altas[i]], alumnos: [alumno] })
                                 } else {
                                     console.log("No hay nada u.u")
                                     //res.status(404).send({ mensaje: "No hay coincidencias" })
                                 }
                             }
                         }
-
+                        if(arrAltas > 0) {
+                            res.status(200).send({ altas: arrAltas, alumnos: [arrAlum] })
+                        } else {
+                            res.status(404).send({ mensaje: "No hay coincidencias" })
+                        }
                     }
                 })
             } else {
@@ -377,7 +385,7 @@ function buscar(req, res) {
                     })
                 }
                 if (arrAlumnos > 0) {
-                    res.status(200).send({ altas: altas, alumnos: alumnos })
+                    res.status(200).send({ altas: altas, alumnos: arrAlumnos })
                 } else {
                     res.status(500).send(error)
                 }
