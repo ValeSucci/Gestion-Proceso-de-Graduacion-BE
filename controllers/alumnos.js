@@ -370,27 +370,28 @@ function buscar(req, res) {
                     }
                 })*/
                 let arrAlumnos = [];
-                let i= 0;
+                //for (let i in altas) {
+                let i = 0;
                 while (i < altas.length) {
                     //arrAlt.push(altas[i]._id)
 
-                    console.log("Alta: " + altas[i]._id+" --- "+new Date().getMilliseconds())
+                    console.log("Alta: " + altas[i]._id + " --- " + new Date().getMilliseconds())
                     Alumno.findOne({ alta_materia: altas[i]._id }, (error, alumno) => {
                         if (error) {
                             res.status(500).send(error)
                             console.log(error)
                         } else {
                             arrAlumnos.push(alumno);
-                            console.log("Alumno: "+alumno.nombre +" --- "+new Date().getMilliseconds())
-                            if(arrAlumnos.length === altas.length) {
+                            console.log("Alumno: " + alumno.nombre + " --- " + new Date().getMilliseconds())
+                            if (arrAlumnos.length === altas.length) {
                                 console.log("Guardando: ")
                                 res.status(200).send({ altas: altas, alumnos: arrAlumnos })
                             }
                         }
                     })
-                    setTimeout(function(){
+                    setTimeout(function () {
                         i++;
-                    }, 2000);
+                    }, 200);
                 }
             }
         }
