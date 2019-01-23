@@ -779,7 +779,7 @@ function nuevaAltaAlumno(req, res) {
 
 }
 
-function openWord(req, res) {
+function openWord2(req, res) {
     //let cargo = req.params.cargo;
     //let bam = req.body;
     //let file = "C:\\Vale\\UPB\\Práctica Interna\\GR.ES.D.01 Carta Nombramiento Tutor V 1.1";
@@ -796,6 +796,53 @@ function openWord(req, res) {
     //    objword.WindowState = 2;
     //    objword.WindowState = 1;
 }
+
+
+function openWord(req, res) {
+    let data = { first_name: 'John', last_name: 'Doe' };
+    let file = "C:\\example.docx";
+
+    var JSZip = require('jszip');
+    var Docxtemplater = require('docxtemplater');
+
+    var fs = require('fs');
+    var path = require('path');
+
+    // Cargo el docx como un  binary
+    var content = fs.readFileSync(path.resolve(file), 'binary');
+
+    var zip = new JSZip(content);
+
+    var doc = new Docxtemplater();
+    doc.loadZip(zip);
+
+    // setea los valores de data ej: { first_name: 'John' , last_name: 'Doe'}
+    doc.setData(data);
+
+    try {
+        // renderiza el documento (remplaza las ocurrencias como {first_name} by John, {last_name} by Doe, ...)
+        doc.render();
+    }
+    catch (error) {
+        var e = {
+            message: error.message,
+            name: error.name,
+            stack: error.stack,
+            properties: error.properties,
+        }
+        console.log(JSON.stringify({ error: e }));
+        throw error;
+    }
+
+    var buffer = doc.getZip()
+        .generate({ type: 'nodebuffer' });
+
+    fs.writeFileSync(path.resolve('tmpdocs', data.doc + file), buffer);
+
+    return path.resolve(__dirname.replace('tmpdocs', data.doc + file));
+    
+}
+
 
 
 
