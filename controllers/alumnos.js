@@ -356,7 +356,7 @@ function buscar(req, res) {
                     }
                 })
             } else {
-                /*let arrAlt = [];
+                let arrAlt = [];
                 for (let i in altas) {
                     arrAlt.push(altas[i]._id)
                 }
@@ -368,8 +368,8 @@ function buscar(req, res) {
                     } else {
                         res.status(200).send({ altas: altas, alumnos: alumnos })
                     }
-                })*/
-                let arrAlumnos = [];
+                })
+                /*let arrAlumnos = [];
                 for (let i in altas) {
                     //arrAlt.push(altas[i]._id)
                     let idAlt = altas[i]._id;
@@ -388,7 +388,7 @@ function buscar(req, res) {
                             }
                         }
                     })
-                }
+                }*/
             }
         }
     })
