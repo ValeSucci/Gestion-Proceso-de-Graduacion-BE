@@ -9,6 +9,6 @@ api.get("/get/:codigo",control.get)
 api.post("/buscar", control.buscar)
 api.put("/update/:id", control.updateAlumno)
 api.post("/buscarPorTema", control.buscarPorTema)
-api.put("/nuevaAlta/:id", control.nuevaAltaAlumno)
+api.put("/nuevaAlta/:codigo", control.nuevaAltaAlumno)
 
 module.exports = api;

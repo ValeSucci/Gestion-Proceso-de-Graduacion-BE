@@ -689,7 +689,7 @@ function nuevaAltaAlumno(req, res) {
     alta_materia.save().then(
         (am) => {
             idam = am._id
-            Alumno.findOne({ "_id": req.params.id }, (err, alumno) => {
+            Alumno.findOne({ "codigo": req.params.codigo }, (err, alumno) => {
                 alumno.codigo = b.alumno.codigo,
                 alumno.nombre = b.alumno.nombre,
                 alumno.alta_materia.push(am)
