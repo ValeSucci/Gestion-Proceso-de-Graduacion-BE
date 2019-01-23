@@ -379,14 +379,16 @@ function buscar(req, res) {
                                         for (let j in alumnos) {
                                             if (alumnos[j].alta_materia.includes(altas[i])) {
                                                 alumnos.splice(i, 0, alumnos[j])
+                                                console.log("aniadiendo "+alumno[j].nombre+" a index"+i)
                                                 break;
                                             }
                                         }
                                     }
                                 } else {
+                                    console.log("Copiando el ultimo elemento")
                                     alumnos.push(alumnos[alumnos.length - 1])
                                 }
-                                console.log("altas: " + altas + " -- alumnos: " + alumnos)
+                                //console.log("altas: " + altas + " -- alumnos: " + alumnos)
                             }
 
                             if (altas.length === alumnos.length) {
