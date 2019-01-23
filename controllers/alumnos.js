@@ -374,7 +374,7 @@ function buscar(req, res) {
                     //arrAlt.push(altas[i]._id)
 
                     console.log("Alta: " + altas[i]._id)
-                    Alumno.find({ alta_materia: altas[i]._id }, (error, alumno) => {
+                    Alumno.findOne({ alta_materia: altas[i]._id }, (error, alumno) => {
                         if (error) {
                             res.status(500).send(error)
                             console.log(error)
