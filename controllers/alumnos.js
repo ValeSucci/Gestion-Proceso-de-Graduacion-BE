@@ -377,11 +377,12 @@ function buscar(req, res) {
                                     console.log("index: "+i)
                                     console.log(alumnos[i].alta_materia)
                                     console.log(" -- "+arrAlt[i].toString())
-                                    if (!alumnos[i].alta_materia.includes(arrAlt[i].toString())) {
+                                    console.log(alumnos[i].alta_materia.indexOf(arrAlt[i].toString()))
+                                    if (alumnos[i].alta_materia.indexOf(arrAlt[i].toString()) < 0) {
                                         console.log("No contiene")
                                         //buscar a cual pertenece
                                         for (let j in alumnos) {
-                                            if (alumnos[j].alta_materia.includes(arrAlt[i].toString())) {
+                                            if (alumnos[j].alta_materia.indexOf(arrAlt[i].toString()) >=0) {
                                                 alumnos.splice(i, 0, alumnos[j])
                                                 console.log("aniadiendo "+alumno[j].nombre+" a index"+i)
                                                 break;
