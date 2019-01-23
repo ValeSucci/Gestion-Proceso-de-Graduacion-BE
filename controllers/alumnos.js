@@ -369,18 +369,18 @@ function buscar(req, res) {
                     } else {
                         arrAlumnos = alumnos;
                         //res.status(200).send({ altas: altas, alumnos: alumnos })
-                        if (altas.length === alumnos.length) {
+                        if (arrAlt.length === alumnos.length) {
                             res.status(200).send({ altas: altas, alumnos: alumnos })
                         } else {
-                            for (let i in altas) {
+                            for (let i in arrAlt) {
                                 if (i < alumnos.length) {
                                     console.log("index: "+i)
-                                    console.log(alumnos[i].alta_materia+" -- "+altas[i])
-                                    if (!alumnos[i].alta_materia.includes(altas[i])) {
+                                    console.log(alumnos[i].alta_materia+" -- "+arrAlt[i])
+                                    if (!alumnos[i].alta_materia.includes(arrAlt[i])) {
                                         console.log("No contiene")
                                         //buscar a cual pertenece
                                         for (let j in alumnos) {
-                                            if (alumnos[j].alta_materia.includes(altas[i])) {
+                                            if (alumnos[j].alta_materia.includes(arrAlt[i])) {
                                                 alumnos.splice(i, 0, alumnos[j])
                                                 console.log("aniadiendo "+alumno[j].nombre+" a index"+i)
                                                 break;
@@ -394,7 +394,7 @@ function buscar(req, res) {
                                 //console.log("altas: " + altas + " -- alumnos: " + alumnos)
                             }
 
-                            if (altas.length === alumnos.length) {
+                            if (arrAlt.length === alumnos.length) {
                                 res.status(200).send({ altas: altas, alumnos: alumnos })
                             }
 
