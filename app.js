@@ -6,6 +6,7 @@ const alumnoApi = require('./routes/alumnos')
 const docenteApi = require('./routes/docentes')
 const usuarioApi = require('./routes/usuarios')
 const altaMateriaApi = require('./routes/alta_materia')
+const notificacionApi = require('./routes/notificaciones')
 
 const app = express()
 
@@ -16,6 +17,7 @@ app.use('/Alumno', alumnoApi)
 app.use('/Docente', docenteApi)
 app.use('/Usuario', usuarioApi)
 app.use('/AltaMateria', altaMateriaApi)
+app.use('/Notificacion', notificacionApi)
 
 app.get("/", (req, res) => {
     res.status(200).send('Todo correcto')

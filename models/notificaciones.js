@@ -5,10 +5,17 @@ var Schema = mongoose.Schema;
 
 
 var notificacion_schema = new Schema ({
-    cogido_alumno: Number,
+    codigo: Number,
     asunto: String,
     fecha_asunto: Date,
-    fecha_publicacion: Date
+    fecha_publicacion:  {
+        type: Date,
+        default: null
+    },
+    visto: {
+        default: false,
+        type: Boolean
+    }
 });
 
 
