@@ -31,6 +31,7 @@ function getAll(req,res) {
 function createNotificacion(data) {
     var notificacion = new Notificacion({
         codigo: data.codigo,
+        nombre: data.nombre,
         asunto: data.asunto,
         fecha_asunto: data.fecha_asunto,
         fecha_publicacion: data.fecha_publicacion,

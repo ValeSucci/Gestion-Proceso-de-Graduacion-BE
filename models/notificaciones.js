@@ -6,6 +6,7 @@ var Schema = mongoose.Schema;
 
 var notificacion_schema = new Schema ({
     codigo: Number,
+    nombre: String,
     asunto: String,
     fecha_asunto: Date,
     fecha_publicacion:  {
