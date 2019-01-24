@@ -671,6 +671,55 @@ function buscarPorTema(req, res) {
             console.log(error)
         } else {
             let arrAlt = [];
+            let arrAlumnos = []
+            for (let i in altas) {
+                arrAlt.push(altas[i]._id)
+            }
+            console.log(arrAlt)
+            Alumno.find({ alta_materia: { $in: arrAlt } }, (error, alumnos) => {
+                if (error) {
+                    res.status(500).send(error)
+                    console.log(error)
+                } else {
+                    arrAlumnos = alumnos;
+                    //res.status(200).send({ altas: altas, alumnos: alumnos })
+                    if (arrAlt.length === alumnos.length) {
+                        res.status(200).send({ altas: altas, alumnos: alumnos })
+                    } else {
+                        for (let i in arrAlt) {
+                            if (i < alumnos.length) {
+                                console.log("index: " + i)
+                                console.log(alumnos[i].alta_materia)
+                                console.log(" -- " + arrAlt[i].toString())
+                                console.log(alumnos[i].alta_materia.indexOf(arrAlt[i].toString()))
+                                if (alumnos[i].alta_materia.indexOf(arrAlt[i].toString()) < 0) {
+                                    console.log("No contiene")
+                                    //buscar a cual pertenece
+                                    for (let j in alumnos) {
+                                        if (alumnos[j].alta_materia.indexOf(arrAlt[i].toString()) >= 0) {
+                                            alumnos.splice(i, 0, alumnos[j])
+                                            console.log("aniadiendo " + alumnos[j].nombre + " a index" + i)
+                                            break;
+                                        }
+                                    }
+                                }
+                            } else {
+                                console.log("Copiando el ultimo elemento")
+                                alumnos.push(alumnos[alumnos.length - 1])
+                            }
+                            //console.log("altas: " + altas + " -- alumnos: " + alumnos)
+                        }
+
+                        if (arrAlt.length === alumnos.length) {
+                            res.status(200).send({ altas: altas, alumnos: alumnos })
+                        }
+
+                    }
+                }
+            })
+
+       
+            /*let arrAlt = [];
             for (let i in altas) {
                 arrAlt.push(altas[i]._id)
             }
@@ -682,7 +731,7 @@ function buscarPorTema(req, res) {
                 } else {
                     res.status(200).send({ altas: altas, alumnos: alumnos })
                 }
-            })
+            })*/
         }
     })
 }
