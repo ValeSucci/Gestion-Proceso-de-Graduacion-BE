@@ -38,10 +38,12 @@ function createNotificacion(data) {
     })
     notificacion.save().then(
         (not)=>{
-            res.send(not);
+            //res.send(not);
+            console.log(not)
         },
         (error)=>{
-            res.send(error);
+            //res.send(error);
+            console.log(error)
         }
     )
 }
