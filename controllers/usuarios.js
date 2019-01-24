@@ -21,60 +21,60 @@ function login(req, res) {
 }
 
 
-function updateUsuario(req,res) {
-    Usuario.findOne({username: req.params.username},(err,user)=>{
+function updateUsuario(req, res) {
+    Usuario.findOne({ username: req.params.username }, (err, user) => {
         user.nombre = req.body.nombre;
         user.password = req.body.password;
         user.telefono = req.body.telefono;
-        user.correo = req.body.correo;  
-        user.save((err)=>{
-            if(err) {
+        user.correo = req.body.correo;
+        user.save((err) => {
+            if (err) {
                 res.send(err)
             } else {
-                res.send({mensaje:"Actualizacion Correcta"})
+                res.send({ mensaje: "Actualizacion Correcta" })
             }
         })
     })
 }
 
-function updateSoloAltaBaja(req,res) {
-    Usuario.findOne({username: req.params.username},(err,user)=>{
+function updateSoloAltaBaja(req, res) {
+    Usuario.findOne({ username: req.params.username }, (err, user) => {
         user.habilitado = !user.habilitado;
-        if(user.habilitado) {
+        if (user.habilitado) {
             user.fecha_fin = null;
         } else {
             user.fecha_fin = Date.now();
         }
-        user.save((err)=>{
-            if(err) {
+        user.save((err) => {
+            if (err) {
                 res.send(err)
             } else {
-                res.send({mensaje:"Actualizacion Correcta"})
+                res.send({ mensaje: "Actualizacion Correcta" })
             }
         })
     })
 }
 
-function updateUsuarioAdmi(req,res) {
-    Usuario.findOne({username: req.params.username},(err,user)=>{
+function updateUsuarioAdmi(req, res) {
+    Usuario.findOne({ username: req.params.username }, (err, user) => {
         user.nombre = req.body.nombre;
         user.password = req.body.password;
         user.habilitado = req.body.habilitado;
         user.fecha_fin = req.body.fecha_fin;
-        user.save((err)=>{
-            if(err) {
+        user.save((err) => {
+            if (err) {
                 res.send(err)
             } else {
-                res.send({mensaje:"Actualizacion Correcta"})
+                res.send({ mensaje: "Actualizacion Correcta" })
             }
         })
     })
 }
 
 
-function get(req,res) {
-    Usuario.findOne({username: req.params.username},(error, user)=>{
-        if(error) {
+function get(req, res) {
+    Usuario.findOne({ username: req.params.username }, (error, user) => {
+        if (error) {
             res.status(500).send(error)
         } else {
             res.status(200).send(user)
@@ -84,9 +84,9 @@ function get(req,res) {
 
 
 
-function getAll(req,res) {
-    Usuario.find({esSuper: false},(error, users)=>{
-        if(error) {
+function getAll(req, res) {
+    Usuario.find({ esSuper: false }, (error, users) => {
+        if (error) {
             res.status(500).send(error)
         } else {
             res.status(200).send(users)
@@ -95,7 +95,7 @@ function getAll(req,res) {
 }
 
 
-function createUser(req,res) {
+function createUser(req, res) {
     var user = new Usuario({
         username: req.body.username,
         nombre: req.body.nombre,
@@ -103,20 +103,20 @@ function createUser(req,res) {
         telefono: req.body.telefono,
         correo: req.body.correo,
         habilitado: true,
-        esSuper: false,
+        esSuper: req.body.esSuper,
         fecha_inicio: Date.now(),
         fecha_fin: null
     })
     user.save().then(
-        (u)=>{
+        (u) => {
             res.send(u);
             console.log("Usuario creado correctamente")
         },
-        (error)=>{
+        (error) => {
             res.send(error);
         }
     )
 }
 
 
-module.exports = { login, updateUsuario, get, createUser, updateUsuarioAdmi, getAll, updateSoloAltaBaja}
+module.exports = { login, updateUsuario, get, createUser, updateUsuarioAdmi, getAll, updateSoloAltaBaja }
