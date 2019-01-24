@@ -11,7 +11,7 @@ function getAll(req,res) {
     })
 }
 
-function createNotificacion(req,res) {
+/*function createNotificacion(req,res) {
     var notificacion = new Notificacion({
         codigo: req.body.codigo,
         asunto: req.body.asunto,
@@ -26,7 +26,27 @@ function createNotificacion(req,res) {
             res.send(error);
         }
     )
+}*/
+
+function createNotificacion(data) {
+    var notificacion = new Notificacion({
+        codigo: data.codigo,
+        asunto: data.asunto,
+        fecha_asunto: data.fecha_asunto,
+        fecha_publicacion: data.fecha_publicacion,
+        visto: data.visto
+    })
+    notificacion.save().then(
+        (not)=>{
+            res.send(not);
+        },
+        (error)=>{
+            res.send(error);
+        }
+    )
 }
+
+
 
 function get(req,res) {
     Notificacion.findOne({_id: req.params.id},(error, notificacion)=>{
