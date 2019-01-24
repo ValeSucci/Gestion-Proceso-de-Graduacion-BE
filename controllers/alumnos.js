@@ -528,6 +528,41 @@ function updateAlumno(req, res) {
         estadoC = "Con Revisor";
     }
 
+
+    if (!bam.prorroga && plazoC !== null) {
+        //crear notificacion de solicitud de prorroga        
+        Notificacion.createNotificacion({ codigo: b.codigo, nombre: b.nombre, asunto: "Solicitar Prórroga", fecha_asunto: plazoC, fecha_publicacion: null, visto: false });
+        console.log("Not 1 creada")
+    }
+
+    if (plazoC !== null) {
+        //crear notificacion de final de prorroga
+        Notificacion.createNotificacion({ codigo: b.codigo, nombre: b.nombre, asunto: "Finalización Plazo", fecha_asunto: plazoC, fecha_publicacion: null, visto: false });
+        console.log("Not 2 creada")
+    }
+
+    if (bam.defensa_interna.fecha && !bam.defensa_externa.fecha) {
+        //crear notificacion de defensa interna
+        Notificacion.createNotificacion({ codigo: b.codigo, nombre: b.nombre, asunto: "Defensa Interna", fecha_asunto: bam.defensa_interna.fecha, fecha_publicacion: null, visto: false });
+        console.log("Not 3 creada")
+    }
+
+    if (bam.defensa_externa.fecha) {
+        //crear notificacion de defensa externa
+        Notificacion.createNotificacion({ codigo: b.codigo, nombre: b.nombre, asunto: "Defensa Externa", fecha_asunto: bam.defensa_externa.fecha, fecha_publicacion: null, visto: false });
+        console.log("Not 4 creada")
+    }
+
+    if (bam.revisor.fecha_suficiencia) {
+        //crear notificacion de revision de carpeta 
+        Notificacion.createNotificacion({ codigo: b.codigo, nombre: b.nombre, asunto: "Solicitar Revisión de Carpeta", fecha_asunto: bam.revisor.fecha_suficiencia, fecha_publicacion: null, visto: false });
+        console.log("Not 5 creada")
+    }
+
+
+
+
+
     //TODO corregir q esto se ejecute primero!! 
     let citeT = null; //fixCite(true);
     let citeR = null; //fixCite(false);
@@ -716,6 +751,38 @@ function nuevaAltaAlumno(req, res) {
         colorC = Colores.COLOR_REVISOR;
         estadoC = "Con Revisor";
     }
+
+
+    if (!bam.prorroga && plazoC !== null) {
+        //crear notificacion de solicitud de prorroga        
+        Notificacion.createNotificacion({ codigo: b.codigo, nombre: b.nombre, asunto: "Solicitar Prórroga", fecha_asunto: plazoC, fecha_publicacion: null, visto: false });
+        console.log("Not 1 creada")
+    }
+
+    if (plazoC !== null) {
+        //crear notificacion de final de prorroga
+        Notificacion.createNotificacion({ codigo: b.codigo, nombre: b.nombre, asunto: "Finalización Plazo", fecha_asunto: plazoC, fecha_publicacion: null, visto: false });
+        console.log("Not 2 creada")
+    }
+
+    if (bam.defensa_interna.fecha && !bam.defensa_externa.fecha) {
+        //crear notificacion de defensa interna
+        Notificacion.createNotificacion({ codigo: b.codigo, nombre: b.nombre, asunto: "Defensa Interna", fecha_asunto: bam.defensa_interna.fecha, fecha_publicacion: null, visto: false });
+        console.log("Not 3 creada")
+    }
+
+    if (bam.defensa_externa.fecha) {
+        //crear notificacion de defensa externa
+        Notificacion.createNotificacion({ codigo: b.codigo, nombre: b.nombre, asunto: "Defensa Externa", fecha_asunto: bam.defensa_externa.fecha, fecha_publicacion: null, visto: false });
+        console.log("Not 4 creada")
+    }
+
+    if (bam.revisor.fecha_suficiencia) {
+        //crear notificacion de revision de carpeta 
+        Notificacion.createNotificacion({ codigo: b.codigo, nombre: b.nombre, asunto: "Solicitar Revisión de Carpeta", fecha_asunto: bam.revisor.fecha_suficiencia, fecha_publicacion: null, visto: false });
+        console.log("Not 5 creada")
+    }
+
 
     //TODO corregir q esto se ejecute primero!! 
     let citeT = null; //fixCite(true);
