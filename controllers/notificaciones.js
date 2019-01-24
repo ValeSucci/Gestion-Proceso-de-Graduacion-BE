@@ -1,4 +1,4 @@
-const Notificacion = require('../models/notifiaciones').Notifiacion;
+const Notificacion = require('../models/notificaciones').Notificacion;
 
 
 function getAll(req,res) {
