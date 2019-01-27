@@ -712,7 +712,7 @@ function buscarPorTema(req, res) {
             console.log(error)
         } else {
             let arrAlt = [];
-            let arrAlumnos = []
+            let arrAlumnos = [];
             for (let i in altas) {
                 arrAlt.push(altas[i]._id)
             }
@@ -722,6 +722,34 @@ function buscarPorTema(req, res) {
                     res.status(500).send(error)
                     console.log(error)
                 } else {
+                    let Docente = require('../models/docentes').Docente;
+                    let tutores = [];
+                    let revisores = [];
+                    for (let i in altas) {
+                        if (!altas[i].tutor.doc || altas[i].tutor.doc.toString() === '') {
+                            tutores.push("-----");
+                        } else {
+                            Docente.findOne({ _id: altas[i].tutor.doc }, (e, doc) => {
+                                if (e) {
+                                    console.log(e)
+                                } else {
+                                    tutores.push(doc.nombre)
+                                }
+                            })
+                        }
+                        if (!altas[i].revisor.doc || altas[i].revisor.doc.toString() === '') {
+                            revisores.push("-----");
+                        } else {
+                            Docente.findOne({ _id: altas[i].revisor.doc }, (e, doc) => {
+                                if (e) {
+                                    console.log(e)
+                                } else {
+                                    revisores.push(doc.nombre)
+                                }
+                            })
+                        }
+                    }
+
                     arrAlumnos = alumnos;
                     //res.status(200).send({ altas: altas, alumnos: alumnos })
                     if (arrAlt.length === alumnos.length) {
