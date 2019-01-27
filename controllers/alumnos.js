@@ -748,6 +748,7 @@ function buscarPorTema(req, res) {
                                 }
                             })
                         }
+                        console.log("SBT: "+i+": T-"+tutores+" R-"+revisores)
                     }
 
                     arrAlumnos = alumnos;
