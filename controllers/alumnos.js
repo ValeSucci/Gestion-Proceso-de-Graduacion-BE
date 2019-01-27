@@ -727,7 +727,7 @@ function buscarPorTema(req, res) {
                     let revisores = [];
                     for (let i in altas) {
                         if (!altas[i].tutor.doc || altas[i].tutor.doc.toString() === '') {
-                            tutores.push("-----");
+                            tutores.push({nombre: "-----"});
                         } else {
                             console.log("T"+altas[i].tutor.doc)
                             Docente.findOne({ _id: altas[i].tutor.doc }, (e, doc) => {
@@ -735,12 +735,12 @@ function buscarPorTema(req, res) {
                                     console.log(e)
                                 } else {
                                     console.log("docT: "+doc)
-                                    //tutores.push(doc.nombre)
+                                    tutores.push(doc)
                                 }
                             })
                         }
                         if (!altas[i].revisor.doc || altas[i].revisor.doc.toString() === '') {
-                            revisores.push("-----");
+                            revisores.push({nombre: "-----"});
                         } else {
                             console.log("R"+altas[i].revisor.doc)
                             Docente.findOne({ _id: altas[i].revisor.doc }, (e, doc) => {
@@ -748,7 +748,7 @@ function buscarPorTema(req, res) {
                                     console.log(e)
                                 } else {
                                     console.log("docR: "+doc)
-                                    //revisores.push(doc.nombre)
+                                    revisores.push(doc)
                                 }
                             })
                         }
