@@ -722,45 +722,9 @@ function buscarPorTema(req, res) {
                     res.status(500).send(error)
                     console.log(error)
                 } else {
-                    /*
-                    let Docente = require('../models/docentes').Docente;
-                    let tutores = [];
-                    let revisores = [];
-                    for (let i in altas) {
-                        if (!altas[i].tutor.doc || altas[i].tutor.doc.toString() === '') {
-                            tutores.push({nombre: "-----"});
-                        } else {
-                            //console.log("T"+altas[i].tutor.doc)
-                            Docente.findOne({ _id: altas[i].tutor.doc }, (error, docente) => {
-                                if (error) {
-                                    console.log(error)
-                                } else {
-                                    console.log("docT: "+docente)
-                                    tutores.push(docente)
-                                }
-                            })
-                        }
-                        if (!altas[i].revisor.doc || altas[i].revisor.doc.toString() === '') {
-                            revisores.push({nombre: "-----"});
-                        } else {
-                            //console.log("R"+altas[i].revisor.doc)
-                            Docente.findOne({ _id: altas[i].revisor.doc }, (error, docente) => {
-                                if (error) {
-                                    console.log(error)
-                                } else {
-                                    console.log("docR: "+docente)
-                                    revisores.push(docente)
-                                }
-                            })
-                        }
-                        console.log("SBT: "+i+": T "+tutores+" R "+revisores)
-                    }
-                    */
                     arrAlumnos = alumnos;
-                    //if (arrAlt.length === alumnos.length && alumnos.length === tutores.length && tutores.length === revisores.length) {
                     if (arrAlt.length === alumnos.length) {
                         res.status(200).send({ altas: altas, alumnos: alumnos })
-                        //res.status(200).send({ altas: altas, alumnos: alumnos, tutores: tutores, revisores: revisores })
                     } else {
                         for (let i in arrAlt) {
                             if (i < alumnos.length) {
@@ -783,32 +747,15 @@ function buscarPorTema(req, res) {
                                 console.log("Copiando el ultimo elemento")
                                 alumnos.push(alumnos[alumnos.length - 1])
                             }
-                            //console.log("altas: " + altas + " -- alumnos: " + alumnos)
                         }
 
                         if (arrAlt.length === alumnos.length) {
                             res.status(200).send({ altas: altas, alumnos: alumnos })
-                            //res.status(200).send({ altas: altas, alumnos: alumnos, tutores: tutores, revisores: revisores })
                         }
 
                     }
                 }
             })
-
-
-            /*let arrAlt = [];
-            for (let i in altas) {
-                arrAlt.push(altas[i]._id)
-            }
-            console.log(arrAlt)
-            Alumno.find({ alta_materia: { $in: arrAlt } }, (error, alumnos) => {
-                if (error) {
-                    res.status(500).send(error)
-                    console.log(error)
-                } else {
-                    res.status(200).send({ altas: altas, alumnos: alumnos })
-                }
-            })*/
         }
     })
 }
