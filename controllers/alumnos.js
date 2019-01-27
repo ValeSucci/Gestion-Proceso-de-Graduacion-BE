@@ -724,7 +724,7 @@ function buscarPorTema(req, res) {
                     console.log(error)
                 } else {
                     arrAlumnos = alumnos;
-                    if (arrAlt.length === alumnos.length) {
+                    if (arrAlt.length === arrAlumnos.length) {
                         res.status(200).send({ altas: altas, alumnos: alumnos })
                     } else {
                         for (let i in arrAlt) {
@@ -740,7 +740,11 @@ function buscarPorTema(req, res) {
                                 if (alumnos[j].alta_materia.indexOf(arrAlt[i].toString()) >= 0) {
                                     arrAlumnos.splice(i, 0, alumnos[j])
                                     console.log("aniadiendo " + alumnos[j].nombre + " a index" + i)
-                                    break;
+                                    if (arrAlt.length === arrAlumnos.length) {
+                                        res.status(200).send({ altas: altas, alumnos: arrAlumnos })
+                                    } else {
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -749,13 +753,7 @@ function buscarPorTema(req, res) {
                             alumnos.push(alumnos[alumnos.length - 1])
                         }*/
                     }
-
-                    if (arrAlt.length === arrAlumnos.length) {
-                        res.status(200).send({ altas: altas, alumnos: arrAlumnos })
-                    }
-
                 }
-
             })
         }
     })
