@@ -873,7 +873,7 @@ function nuevaAltaAlumno(req, res) {
     //let cartaR = buscarCarta(bam.revisor.tipo_carta);
 
     console.log("ant alta: "+lastAlta)
-    AltaMateria.findOne({ "_id": lastAlta._id }, (err, alta_materia) => {
+    AltaMateria.findOne({ "_id": lastAlta }, (err, alta_materia) => {
         alta_materia.estado = {
             est: NombresEst.EST_BAJA,
             color: Colores.COLOR_BAJA
