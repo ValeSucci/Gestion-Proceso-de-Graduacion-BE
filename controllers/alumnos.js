@@ -722,6 +722,7 @@ function buscarPorTema(req, res) {
                     res.status(500).send(error)
                     console.log(error)
                 } else {
+                    /*
                     let Docente = require('../models/docentes').Docente;
                     let tutores = [];
                     let revisores = [];
@@ -754,11 +755,12 @@ function buscarPorTema(req, res) {
                         }
                         console.log("SBT: "+i+": T "+tutores+" R "+revisores)
                     }
-
+                    */
                     arrAlumnos = alumnos;
-                    //res.status(200).send({ altas: altas, alumnos: alumnos })
-                    if (arrAlt.length === alumnos.length && alumnos.length === tutores.length && tutores.length === revisores.length) {
-                        res.status(200).send({ altas: altas, alumnos: alumnos, tutores: tutores, revisores: revisores })
+                    //if (arrAlt.length === alumnos.length && alumnos.length === tutores.length && tutores.length === revisores.length) {
+                    if (arrAlt.length === alumnos.length) {
+                        res.status(200).send({ altas: altas, alumnos: alumnos })
+                        //res.status(200).send({ altas: altas, alumnos: alumnos, tutores: tutores, revisores: revisores })
                     } else {
                         for (let i in arrAlt) {
                             if (i < alumnos.length) {
@@ -784,8 +786,9 @@ function buscarPorTema(req, res) {
                             //console.log("altas: " + altas + " -- alumnos: " + alumnos)
                         }
 
-                        if (arrAlt.length === alumnos.length && alumnos.length === tutores.length && tutores.length === revisores.length) {
-                            res.status(200).send({ altas: altas, alumnos: alumnos, tutores: tutores, revisores: revisores })
+                        if (arrAlt.length === alumnos.length) {
+                            res.status(200).send({ altas: altas, alumnos: alumnos })
+                            //res.status(200).send({ altas: altas, alumnos: alumnos, tutores: tutores, revisores: revisores })
                         }
 
                     }
