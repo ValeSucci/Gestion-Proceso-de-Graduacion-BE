@@ -757,7 +757,7 @@ function buscarPorTema(req, res) {
 
                     arrAlumnos = alumnos;
                     //res.status(200).send({ altas: altas, alumnos: alumnos })
-                    if (arrAlt.length === alumnos.length) {
+                    if (arrAlt.length === alumnos.length && alumnos.length === tutores.length && tutores.length === revisores.length) {
                         res.status(200).send({ altas: altas, alumnos: alumnos, tutores: tutores, revisores: revisores })
                     } else {
                         for (let i in arrAlt) {
@@ -784,7 +784,7 @@ function buscarPorTema(req, res) {
                             //console.log("altas: " + altas + " -- alumnos: " + alumnos)
                         }
 
-                        if (arrAlt.length === alumnos.length) {
+                        if (arrAlt.length === alumnos.length && alumnos.length === tutores.length && tutores.length === revisores.length) {
                             res.status(200).send({ altas: altas, alumnos: alumnos, tutores: tutores, revisores: revisores })
                         }
 
