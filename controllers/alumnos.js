@@ -880,9 +880,9 @@ function nuevaAltaAlumno(req, res) {
         },
         alta_materia.save((err) => {
             if (err) {
-                res.send(err);
+                console.log(err)
             } else {
-                res.send({ mensaje: "Actualizacion Correcta" })
+                console.log("Actualizacion Correcta" );
             }
         })
     })
