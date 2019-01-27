@@ -753,7 +753,7 @@ function buscarPorTema(req, res) {
                     arrAlumnos = alumnos;
                     //res.status(200).send({ altas: altas, alumnos: alumnos })
                     if (arrAlt.length === alumnos.length) {
-                        res.status(200).send({ altas: altas, alumnos: alumnos })
+                        res.status(200).send({ altas: altas, alumnos: alumnos, tutores: tutores, revisores: revisores })
                     } else {
                         for (let i in arrAlt) {
                             if (i < alumnos.length) {
@@ -780,7 +780,7 @@ function buscarPorTema(req, res) {
                         }
 
                         if (arrAlt.length === alumnos.length) {
-                            res.status(200).send({ altas: altas, alumnos: alumnos })
+                            res.status(200).send({ altas: altas, alumnos: alumnos, tutores: tutores, revisores: revisores })
                         }
 
                     }
