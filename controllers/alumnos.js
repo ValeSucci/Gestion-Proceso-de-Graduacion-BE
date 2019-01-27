@@ -467,7 +467,8 @@ function buscar(req, res) {
 
 function updateAlumno(req, res) {
     let b = req.body.alumno;
-    let bam = req.body.alta_materia[req.body.alta_materia.length - 1];
+    let bam = req.body.alta;
+    //let bam = req.body.alta_materia[req.body.alta_materia.length - 1];
 
     let plazoC = null;
     let mes = new Date(bam.fecha).getMonth(); //del 0 al 11
