@@ -530,9 +530,10 @@ function updateAlumno(req, res) {
     }
 
 
+    let Notif = require('../models/notificaciones').Notificacion;
     if (!bam.prorroga && plazoC !== null) {
         //crear notificacion de solicitud de prorroga
-        Notificacion.find({ codigo: b.codigo, nombre: b.nombre, asunto: "Solicitar Prórroga", fecha_asunto: plazoC, fecha_publicacion: null, visto: false }, (error, nots) => {
+        Notif.find({ codigo: b.codigo, nombre: b.nombre, asunto: "Solicitar Prórroga", fecha_asunto: plazoC, fecha_publicacion: null, visto: false }, (error, nots) => {
             if (error) {
                 res.status(500).send(error)
             } else {
@@ -546,7 +547,7 @@ function updateAlumno(req, res) {
 
     if (plazoC !== null) {
         //crear notificacion de final de prorroga
-        Notificacion.find({ codigo: b.codigo, nombre: b.nombre, asunto: "Finalización Plazo", fecha_asunto: plazoC, fecha_publicacion: null, visto: false }, (error, nots) => {
+        Notif.find({ codigo: b.codigo, nombre: b.nombre, asunto: "Finalización Plazo", fecha_asunto: plazoC, fecha_publicacion: null, visto: false }, (error, nots) => {
             if (error) {
                 res.status(500).send(error)
             } else {
@@ -560,7 +561,7 @@ function updateAlumno(req, res) {
 
     if (bam.defensa_interna.fecha && !bam.defensa_externa.fecha) {
         //crear notificacion de defensa interna
-        Notificacion.find({ codigo: b.codigo, nombre: b.nombre, asunto: "Defensa Interna", fecha_asunto: bam.defensa_interna.fecha, fecha_publicacion: null, visto: false }, (error, nots) => {
+        Notif.find({ codigo: b.codigo, nombre: b.nombre, asunto: "Defensa Interna", fecha_asunto: bam.defensa_interna.fecha, fecha_publicacion: null, visto: false }, (error, nots) => {
             if (error) {
                 res.status(500).send(error)
             } else {
@@ -574,7 +575,7 @@ function updateAlumno(req, res) {
 
     if (bam.defensa_externa.fecha) {
         //crear notificacion de defensa externa
-        Notificacion.find({ codigo: b.codigo, nombre: b.nombre, asunto: "Defensa Externa", fecha_asunto: bam.defensa_externa.fecha, fecha_publicacion: null, visto: false }, (error, nots) => {
+        Notif.find({ codigo: b.codigo, nombre: b.nombre, asunto: "Defensa Externa", fecha_asunto: bam.defensa_externa.fecha, fecha_publicacion: null, visto: false }, (error, nots) => {
             if (error) {
                 res.status(500).send(error)
             } else {
@@ -588,7 +589,7 @@ function updateAlumno(req, res) {
 
     if (bam.revisor.fecha_suficiencia) {
         //crear notificacion de revision de carpeta 
-        Notificacion.find({ codigo: b.codigo, nombre: b.nombre, asunto: "Solicitar Revisión de Carpeta", fecha_asunto: bam.revisor.fecha_suficiencia, fecha_publicacion: null, visto: false }, (error, nots) => {
+        Notif.find({ codigo: b.codigo, nombre: b.nombre, asunto: "Solicitar Revisión de Carpeta", fecha_asunto: bam.revisor.fecha_suficiencia, fecha_publicacion: null, visto: false }, (error, nots) => {
             if (error) {
                 res.status(500).send(error)
             } else {
@@ -599,7 +600,6 @@ function updateAlumno(req, res) {
             }
         })
     }
-
 
 
 
