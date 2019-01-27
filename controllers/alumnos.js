@@ -728,7 +728,7 @@ function buscarPorTema(req, res) {
                         res.status(200).send({ altas: altas, alumnos: alumnos })
                     } else {
                         for (let i in arrAlt) {
-                            if (i < alumnos.length) {
+                            //if (i < alumnos.length) {
                                 console.log("index: " + i)
                                 console.log(alumnos[i].alta_materia)
                                 console.log(" -- " + arrAlt[i].toString())
@@ -744,10 +744,10 @@ function buscarPorTema(req, res) {
                                         }
                                     }
                                 }
-                            } else {
+                            /*} else {
                                 console.log("Copiando el ultimo elemento")
                                 alumnos.push(alumnos[alumnos.length - 1])
-                            }
+                            }*/
                         }
 
                         if (arrAlt.length === alumnos.length) {
