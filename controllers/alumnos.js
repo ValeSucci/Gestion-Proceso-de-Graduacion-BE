@@ -730,26 +730,29 @@ function buscarPorTema(req, res) {
                             tutores.push("-----");
                         } else {
                             console.log("T"+altas[i].tutor.doc)
-                            Docente.findOne({ _id: altas[i].tutor.doc.toString() }, (e, doc) => {
+                            Docente.findOne({ _id: altas[i].tutor.doc }, (e, doc) => {
                                 if (e) {
                                     console.log(e)
                                 } else {
-                                    tutores.push(doc.nombre)
+                                    console.log("docT: "+doc)
+                                    //tutores.push(doc.nombre)
                                 }
                             })
                         }
                         if (!altas[i].revisor.doc || altas[i].revisor.doc.toString() === '') {
                             revisores.push("-----");
                         } else {
-                            Docente.findOne({ _id: altas[i].revisor.doc.toString() }, (e, doc) => {
+                            console.log("R"+altas[i].revisor.doc)
+                            Docente.findOne({ _id: altas[i].revisor.doc }, (e, doc) => {
                                 if (e) {
                                     console.log(e)
                                 } else {
-                                    revisores.push(doc.nombre)
+                                    console.log("docR: "+doc)
+                                    //revisores.push(doc.nombre)
                                 }
                             })
                         }
-                        console.log("SBT: "+i+": T-"+tutores+" R-"+revisores)
+//                        console.log("SBT: "+i+": T-"+tutores+" R-"+revisores)
                     }
 
                     arrAlumnos = alumnos;
