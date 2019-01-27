@@ -1,10 +1,11 @@
-const COLOR_ELABORACION = '#00E7E7'
-const COLOR_REVISOR = '#0000FF'
-const COLOR_DEFENSA_INTERNA = '#FF087F'
-const COLOR_DIFERIDA = '#FFB60E'
-const COLOR_DEFENSA_EXTERNA = '#FFFF00'
-const COLOR_OBSERVADO = '#FF0000'
-const COLOR_GRADUADO = '#00FF00'
+const COLOR_ELABORACION = '#00E7E7' //celeste
+const COLOR_REVISOR = '#0000FF' //azul
+const COLOR_DEFENSA_INTERNA = '#FF087F' //rosadito
+const COLOR_DIFERIDA = '#FF9900' //naranja #FFB60E
+const COLOR_DEFENSA_EXTERNA = '#FFFF00' //amarillo
+const COLOR_OBSERVADO = '#FF0000' //rojo
+const COLOR_GRADUADO = '#00FF00' //verde
+const COLOR_BAJA = '#4d0019' //guindo
 
 module.exports = {
     COLOR_ELABORACION,
@@ -13,5 +14,6 @@ module.exports = {
     COLOR_DIFERIDA,
     COLOR_DEFENSA_EXTERNA,
     COLOR_OBSERVADO,
-    COLOR_GRADUADO
+    COLOR_GRADUADO,
+    COLOR_BAJA
 }

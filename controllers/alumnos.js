@@ -53,28 +53,28 @@ function createAlumno(req, res) {
 
 
     let Colores = require('../services/colores');
-    let estadoC = "En Elaboración";
+    let NombresEst = require('../services/nombres_estados');
+    let estadoC = NombresEst.EST_ELABORACION;
     let colorC = Colores.COLOR_ELABORACION;
     if (bam.observaciones !== null && bam.observaciones !== "") {
         colorC = Colores.COLOR_OBSERVADO;
-        estadoC = "Observado";
+        estadoC = NombresEst.EST_OBSERVADO;
     } else if (bam.defensa_externa.resultado.toLowerCase() === "aprobado") {
         colorC = Colores.COLOR_GRADUADO;
-        estadoC = "Graduado";
+        estadoC = NombresEst.EST_GRADUADO;
     } else if (bam.defensa_externa.fecha !== null) {
         colorC = Colores.COLOR_DEFENSA_EXTERNA;
-        estadoC = "En Defensa Externa";
+        estadoC = NombresEst.EST_DEFENSA_EXTERNA;
     } else if (bam.defensa_interna.resultado.toLowerCase() === "diferido") {
         colorC = Colores.COLOR_DIFERIDA;
-        estadoC = "Diferida";
+        estadoC = NombresEst.EST_DIFERIDA;
     } else if (bam.defensa_interna.fecha !== null) {
         colorC = Colores.COLOR_DEFENSA_INTERNA;
-        estadoC = "En Defensa Interna";
+        estadoC = NombresEst.EST_DEFENSA_INTERNA;
     } else if (bam.revisor.doc !== "") {
         colorC = Colores.COLOR_REVISOR;
-        estadoC = "Con Revisor";
+        estadoC = NombresEst.EST_REVISOR;
     }
-
 
     if (!bam.prorroga && plazoC !== null) {
         //crear notificacion de solicitud de prorroga        
@@ -507,26 +507,27 @@ function updateAlumno(req, res) {
 
 
     let Colores = require('../services/colores');
-    let estadoC = "En Elaboración";
+    let NombresEst = require('../services/nombres_estados');
+    let estadoC = NombresEst.EST_ELABORACION;
     let colorC = Colores.COLOR_ELABORACION;
     if (bam.observaciones !== null && bam.observaciones !== "") {
         colorC = Colores.COLOR_OBSERVADO;
-        estadoC = "Observado";
+        estadoC = NombresEst.EST_OBSERVADO;
     } else if (bam.defensa_externa.resultado.toLowerCase() === "aprobado") {
         colorC = Colores.COLOR_GRADUADO;
-        estadoC = "Graduado";
+        estadoC = NombresEst.EST_GRADUADO;
     } else if (bam.defensa_externa.fecha !== null) {
         colorC = Colores.COLOR_DEFENSA_EXTERNA;
-        estadoC = "En Defensa Externa";
+        estadoC = NombresEst.EST_DEFENSA_EXTERNA;
     } else if (bam.defensa_interna.resultado.toLowerCase() === "diferido") {
         colorC = Colores.COLOR_DIFERIDA;
-        estadoC = "Diferida";
+        estadoC = NombresEst.EST_DIFERIDA;
     } else if (bam.defensa_interna.fecha !== null) {
         colorC = Colores.COLOR_DEFENSA_INTERNA;
-        estadoC = "En Defensa Interna";
-    } else if (bam.revisor.doc !== "" && bam.revisor.doc !== null) {
+        estadoC = NombresEst.EST_DEFENSA_INTERNA;
+    } else if (bam.revisor.doc !== "") {
         colorC = Colores.COLOR_REVISOR;
-        estadoC = "Con Revisor";
+        estadoC = NombresEst.EST_REVISOR;
     }
 
 
@@ -765,6 +766,7 @@ function buscarPorTema(req, res) {
 function nuevaAltaAlumno(req, res) {
     let b = req.body;
     let bam = req.body.alta_materia[req.body.alta_materia.length - 1];
+    let lastAlta = req.body.alta_materia[req.body.alta_materia.length - 2];
 
     let plazoC = null;
     let mes = new Date(bam.fecha).getMonth(); //del 0 al 11
@@ -803,26 +805,27 @@ function nuevaAltaAlumno(req, res) {
 
 
     let Colores = require('../services/colores');
-    let estadoC = "En Elaboración";
+    let NombresEst = require('../services/nombres_estados');
+    let estadoC = NombresEst.EST_ELABORACION;
     let colorC = Colores.COLOR_ELABORACION;
     if (bam.observaciones !== null && bam.observaciones !== "") {
         colorC = Colores.COLOR_OBSERVADO;
-        estadoC = "Observado";
+        estadoC = NombresEst.EST_OBSERVADO;
     } else if (bam.defensa_externa.resultado.toLowerCase() === "aprobado") {
         colorC = Colores.COLOR_GRADUADO;
-        estadoC = "Graduado";
+        estadoC = NombresEst.EST_GRADUADO;
     } else if (bam.defensa_externa.fecha !== null) {
         colorC = Colores.COLOR_DEFENSA_EXTERNA;
-        estadoC = "En Defensa Externa";
+        estadoC = NombresEst.EST_DEFENSA_EXTERNA;
     } else if (bam.defensa_interna.resultado.toLowerCase() === "diferido") {
         colorC = Colores.COLOR_DIFERIDA;
-        estadoC = "Diferida";
+        estadoC = NombresEst.EST_DIFERIDA;
     } else if (bam.defensa_interna.fecha !== null) {
         colorC = Colores.COLOR_DEFENSA_INTERNA;
-        estadoC = "En Defensa Interna";
+        estadoC = NombresEst.EST_DEFENSA_INTERNA;
     } else if (bam.revisor.doc !== "") {
         colorC = Colores.COLOR_REVISOR;
-        estadoC = "Con Revisor";
+        estadoC = NombresEst.EST_REVISOR;
     }
 
 
@@ -868,6 +871,22 @@ function nuevaAltaAlumno(req, res) {
 
     //let cartaT = buscarCarta(bam.tutor.tipo_carta);
     //let cartaR = buscarCarta(bam.revisor.tipo_carta);
+
+    AltaMateria.findOne({ "_id": lastAlta._id }, (err, alta_materia) => {
+        alta_materia.estado = {
+            est: NombresEst.EST_BAJA,
+            color: Colores.COLOR_BAJA
+        },
+        alta_materia.save((err) => {
+            if (err) {
+                res.send(err);
+            } else {
+                res.send({ mensaje: "Actualizacion Correcta" })
+            }
+        })
+    })
+
+
 
     var alta_materia = new AltaMateria({
         nro_alta: bam.nro_alta,
