@@ -728,36 +728,36 @@ function buscarPorTema(req, res) {
                         res.status(200).send({ altas: altas, alumnos: alumnos })
                     } else {
                         for (let i in arrAlt) {
-                            //if (i < alumnos.length) {
+                            /*if (i < alumnos.length) {
                                 console.log("index: " + i)
                                 console.log(alumnos[i].alta_materia)
                                 console.log(" -- " + arrAlt[i].toString())
                                 console.log(alumnos[i].alta_materia.indexOf(arrAlt[i].toString()))
                                 if (alumnos[i].alta_materia.indexOf(arrAlt[i].toString()) < 0) {
-                                    console.log("No contiene")
-                                    //buscar a cual pertenece
-                                    for (let j in alumnos) {
-                                        if (alumnos[j].alta_materia.indexOf(arrAlt[i].toString()) >= 0) {
-                                            alumnos.splice(i, 0, alumnos[j])
-                                            console.log("aniadiendo " + alumnos[j].nombre + " a index" + i)
-                                            break;
-                                        }
-                                    }
+                                    console.log("No contiene")*/
+                            //buscar a cual pertenece
+                            for (let j in alumnos) {
+                                if (alumnos[j].alta_materia.indexOf(arrAlt[i].toString()) >= 0) {
+                                    alumnos.splice(i, 0, alumnos[j])
+                                    console.log("aniadiendo " + alumnos[j].nombre + " a index" + i)
+                                    break;
                                 }
-                            /*} else {
-                                console.log("Copiando el ultimo elemento")
-                                alumnos.push(alumnos[alumnos.length - 1])
-                            }*/
+                            }
                         }
-
-                        if (arrAlt.length === alumnos.length) {
-                            res.status(200).send({ altas: altas, alumnos: alumnos })
-                        }
-
+                        /*} else {
+                            console.log("Copiando el ultimo elemento")
+                            alumnos.push(alumnos[alumnos.length - 1])
+                        }*/
                     }
+
+                    if (arrAlt.length === alumnos.length) {
+                        res.status(200).send({ altas: altas, alumnos: alumnos })
+                    }
+
                 }
+            }
             })
-        }
+}
     })
 }
 
@@ -872,19 +872,19 @@ function nuevaAltaAlumno(req, res) {
     //let cartaT = buscarCarta(bam.tutor.tipo_carta);
     //let cartaR = buscarCarta(bam.revisor.tipo_carta);
 
-    console.log("ant alta: "+lastAlta)
+    console.log("ant alta: " + lastAlta)
     AltaMateria.findOne({ "_id": lastAlta }, (err, alta_materia) => {
         alta_materia.estado = {
             est: NombresEst.EST_BAJA,
             color: Colores.COLOR_BAJA
         },
-        alta_materia.save((err) => {
-            if (err) {
-                console.log(err)
-            } else {
-                console.log("Actualizacion Correcta" );
-            }
-        })
+            alta_materia.save((err) => {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log("Actualizacion Correcta");
+                }
+            })
     })
 
 
