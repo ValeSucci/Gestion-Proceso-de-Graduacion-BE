@@ -734,7 +734,7 @@ function buscarPorTema(req, res) {
                                 if (error) {
                                     console.log(error)
                                 } else {
-                              //      console.log("docT: "+doc)
+                                    console.log("docT: "+doc)
                                     tutores.push(docente)
                                 }
                             })
@@ -747,7 +747,7 @@ function buscarPorTema(req, res) {
                                 if (error) {
                                     console.log(error)
                                 } else {
-                              //      console.log("docR: "+doc)
+                                    console.log("docR: "+doc)
                                     revisores.push(docente)
                                 }
                             })
