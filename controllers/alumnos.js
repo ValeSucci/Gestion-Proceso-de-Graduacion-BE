@@ -872,6 +872,7 @@ function nuevaAltaAlumno(req, res) {
     //let cartaT = buscarCarta(bam.tutor.tipo_carta);
     //let cartaR = buscarCarta(bam.revisor.tipo_carta);
 
+    console.log("ant alta: "+lastAlta)
     AltaMateria.findOne({ "_id": lastAlta._id }, (err, alta_materia) => {
         alta_materia.estado = {
             est: NombresEst.EST_BAJA,
