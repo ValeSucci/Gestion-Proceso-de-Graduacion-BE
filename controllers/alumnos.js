@@ -755,9 +755,9 @@ function buscarPorTema(req, res) {
                     }
 
                 }
-            }
+
             })
-}
+        }
     })
 }
 
