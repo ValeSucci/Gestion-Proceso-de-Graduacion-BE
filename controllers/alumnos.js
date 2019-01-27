@@ -738,7 +738,7 @@ function buscarPorTema(req, res) {
                             //buscar a cual pertenece
                             for (let j in alumnos) {
                                 if (alumnos[j].alta_materia.indexOf(arrAlt[i].toString()) >= 0) {
-                                    alumnos.splice(i, 0, alumnos[j])
+                                    arrAlumnos.splice(i, 0, alumnos[j])
                                     console.log("aniadiendo " + alumnos[j].nombre + " a index" + i)
                                     break;
                                 }
@@ -750,8 +750,8 @@ function buscarPorTema(req, res) {
                         }*/
                     }
 
-                    if (arrAlt.length === alumnos.length) {
-                        res.status(200).send({ altas: altas, alumnos: alumnos })
+                    if (arrAlt.length === arrAlumnos.length) {
+                        res.status(200).send({ altas: altas, alumnos: arrAlumnos })
                     }
 
                 }
