@@ -89,7 +89,9 @@ function get(req, res) {
         } else {
             let index = user.password.toString().length-Token.toString().length;
             console.log("ind:"+index)
-            let pU = Encriptador.encode((Encriptador.decode(user.password)).toString().substring(0,index));
+            let pDecod = (Encriptador.decode(user.password)).toString().substring(0,index);
+            console.log("pD: "+pDecod)
+            let pU = Encriptador.encode(pDecod);
             console.log("p:"+pU)
             res.status(200).send({u: user, u2: pU})
         }
