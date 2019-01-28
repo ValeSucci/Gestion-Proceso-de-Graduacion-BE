@@ -1,6 +1,6 @@
 const Usuario = require('../models/usuarios').Usuario;
 
-function login(req, res) {
+/*function login(req, res) {
     param = req.query.param.split(' ')
     //console.log(param[0] + "-" + param[1])
     Usuario.findOne({ username: param[0] }, (err, user) => {
@@ -18,7 +18,34 @@ function login(req, res) {
             }
         }
     })
+}*/
+
+function login(req, res) {
+    param = req.query.param.split(' ')
+    //console.log(param[0] + "-" + param[1])
+    Usuario.findOne({ username: param[0] }, (err, user) => {
+        //console.log(user)
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            if (!user) {
+                res.status(200).send({ message: 'Usuario inexistente' })
+            } else {
+                if (user.password === param[1]) {
+                    if (user.habilitado) {
+                        res.status(200).send({ role: user.esSuper, _id: user._id, username: user.username })
+                    } else {
+                        res.status(200).send({ message: 'Usuario deshabilitado' })
+                    }
+                } else {
+                    //console.log('fail')
+                    res.status(200).send({ message: 'Contraseña incorrecta' })
+                }
+            }
+        }
+    })
 }
+
 
 
 function updateUsuario(req, res) {
