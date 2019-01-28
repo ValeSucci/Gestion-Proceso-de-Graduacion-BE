@@ -992,7 +992,7 @@ function openWord2(req, res) {
     //    objword.WindowState = 1;
 }*/
 
-
+/*
 function openWord(req, res) {
     let data = { first_name: 'John', last_name: 'Doe' };
     let file = "tag-example.docx";
@@ -1036,7 +1036,7 @@ function openWord(req, res) {
 
     return path.resolve(__dirname.replace('tmpdocs', data.doc + file));
     
-}
+}*/
 
 /*
 function readSingleFile(e) {
@@ -1065,4 +1065,4 @@ document.getElementById('file-input')
 
 
 
-module.exports = { getAll, createAlumno, get, buscar, updateAlumno, buscarPorTema, nuevaAltaAlumno, openWord }
+module.exports = { getAll, createAlumno, get, buscar, updateAlumno, buscarPorTema, nuevaAltaAlumno }
