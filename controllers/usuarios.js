@@ -88,6 +88,7 @@ function get(req, res) {
             res.status(500).send(error)
         } else {
             user.password = Encriptador.encode(Encriptador.decode(user.password).substring(0,user.password.toString().length-Token.length));
+            console.log(user)
             res.status(200).send(user)
         }
     })
