@@ -87,10 +87,8 @@ function get(req, res) {
         if (error) {
             res.status(500).send(error)
         } else {
-            console.log(user)
-            user.password = Encriptador.encode(Encriptador.decode(user.password).substring(0,user.password.toString().length-Token.length));
-            console.log(user)
-            res.status(200).send(user)
+            let pU = Encriptador.encode(Encriptador.decode(user.password).substring(0,user.password.toString().length-Token.length));
+            res.status(200).send({u: user, u2: pU})
         }
     })
 }
