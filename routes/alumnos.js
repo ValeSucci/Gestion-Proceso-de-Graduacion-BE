@@ -10,6 +10,6 @@ api.post("/buscar", control.buscar)
 api.put("/update/:id", control.updateAlumno)
 api.post("/buscarPorTema", control.buscarPorTema)
 api.put("/nuevaAlta/:codigo", control.nuevaAltaAlumno)
-//api.post("/openWord/:cargo", control.openWord)
+api.post("/openWord/:cargo", control.openWord)
 
 module.exports = api;

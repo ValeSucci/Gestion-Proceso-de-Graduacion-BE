@@ -973,6 +973,7 @@ function nuevaAltaAlumno(req, res) {
 
 }
 
+/*
 function openWord2(req, res) {
     //let cargo = req.params.cargo;
     //let bam = req.body;
@@ -981,7 +982,7 @@ function openWord2(req, res) {
         bam.tutor.ubicacion_carta;
     } else if(cargo === 'R') {
         bam.revisor.ubicacion_carta;
-    }*/
+    }*-/
     let file = "C:\\example.docx";
     var objword = new ActiveXObject("Word.Application");
 
@@ -989,12 +990,12 @@ function openWord2(req, res) {
     objword.Documents.Open(file);
     //    objword.WindowState = 2;
     //    objword.WindowState = 1;
-}
+}*/
 
-/*
+
 function openWord(req, res) {
     let data = { first_name: 'John', last_name: 'Doe' };
-    let file = "C:/example.docx";
+    let file = "tag-example.docx";
 
     var JSZip = require('jszip');
     var Docxtemplater = require('docxtemplater');
@@ -1035,7 +1036,7 @@ function openWord(req, res) {
 
     return path.resolve(__dirname.replace('tmpdocs', data.doc + file));
     
-}*/
+}
 
 /*
 function readSingleFile(e) {
@@ -1064,4 +1065,4 @@ document.getElementById('file-input')
 
 
 
-module.exports = { getAll, createAlumno, get, buscar, updateAlumno, buscarPorTema, nuevaAltaAlumno }
+module.exports = { getAll, createAlumno, get, buscar, updateAlumno, buscarPorTema, nuevaAltaAlumno, openWord }
