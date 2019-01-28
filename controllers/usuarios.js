@@ -1,24 +1,6 @@
 const Usuario = require('../models/usuarios').Usuario;
-
-/*function login(req, res) {
-    param = req.query.param.split(' ')
-    //console.log(param[0] + "-" + param[1])
-    Usuario.findOne({ username: param[0] }, (err, user) => {
-        //console.log(user)
-        if (err || user === null) {
-            res.status(500).send({ message: 'Usuario inexistente' })
-        } else {
-            if (user.password === param[1]) {
-                res.status(200).send({ role: user.esSuper, _id: user._id, username: user.username })
-                // user.lastLogin = Date.now()
-
-            } else {
-                console.log('fail')
-                res.status(403).send({ message: 'Contraseña incorrecta' })
-            }
-        }
-    })
-}*/
+const Encriptador = require('../services/encriptador');
+const Token = require('../config').SECRET_TOKEN;
 
 function login(req, res) {
     param = req.query.param.split(' ')
@@ -31,7 +13,8 @@ function login(req, res) {
             if (!user) {
                 res.status(200).send({ message: 'Usuario inexistente' })
             } else {
-                if (user.password === param[1]) {
+                let p = Encriptador.encode(Encriptador.decode(param[1])+Token)
+                if (user.password === p) {
                     if (user.habilitado) {
                         res.status(200).send({ role: user.esSuper, _id: user._id, username: user.username })
                     } else {
@@ -51,7 +34,7 @@ function login(req, res) {
 function updateUsuario(req, res) {
     Usuario.findOne({ username: req.params.username }, (err, user) => {
         user.nombre = req.body.nombre;
-        user.password = req.body.password;
+        user.password = Encriptador.encode(Encriptador.decode(req.body.password)+Token);
         user.telefono = req.body.telefono;
         user.correo = req.body.correo;
         user.save((err) => {
@@ -85,7 +68,7 @@ function updateSoloAltaBaja(req, res) {
 function updateUsuarioAdmi(req, res) {
     Usuario.findOne({ username: req.params.username }, (err, user) => {
         user.nombre = req.body.nombre;
-        user.password = req.body.password;
+        user.password = Encriptador.encode(Encriptador.decode(req.body.password)+Token);
         user.habilitado = req.body.habilitado;
         user.fecha_fin = req.body.fecha_fin;
         user.save((err) => {
@@ -104,6 +87,7 @@ function get(req, res) {
         if (error) {
             res.status(500).send(error)
         } else {
+            user.password = Encriptador.encode(Encriptador.decode(user.password).substring(0,user.password.toString().length-Token.length));
             res.status(200).send(user)
         }
     })
@@ -126,7 +110,7 @@ function createUser(req, res) {
     var user = new Usuario({
         username: req.body.username,
         nombre: req.body.nombre,
-        password: req.body.password,
+        password: Encriptador.encode(Encriptador.decode(req.body.password)+Token),
         telefono: req.body.telefono,
         correo: req.body.correo,
         habilitado: true,
