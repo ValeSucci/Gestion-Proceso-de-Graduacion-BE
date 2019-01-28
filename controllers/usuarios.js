@@ -15,6 +15,7 @@ function login(req, res) {
                 res.status(200).send({ message: 'Usuario inexistente' })
             } else {
                 let p = Encriptador.encode(Encriptador.decode(param[1])+Token)
+                console.log(p)
                 if (user.password === p) {
                     if (user.habilitado) {
                         res.status(200).send({ role: user.esSuper, _id: user._id, username: user.username })
