@@ -6,7 +6,8 @@ function login(req, res) {
     param = req.query.param.split(' ')
     //console.log(param[0] + "-" + param[1])
     Usuario.findOne({ username: param[0] }, (err, user) => {
-        //console.log(user)
+        console.log(user)
+        console.log(param[1])
         if (err) {
             res.status(500).send(err);
         } else {
