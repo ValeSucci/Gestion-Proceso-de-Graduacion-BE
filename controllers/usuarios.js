@@ -6,8 +6,8 @@ function login(req, res) {
     param = req.query.param.split(' ')
     //console.log(param[0] + "-" + param[1])
     Usuario.findOne({ username: param[0] }, (err, user) => {
-        console.log(user)
-        console.log(param[1])
+        //console.log(user)
+        //console.log(param[1])
         if (err) {
             res.status(500).send(err);
         } else {
@@ -15,7 +15,7 @@ function login(req, res) {
                 res.status(200).send({ message: 'Usuario inexistente' })
             } else {
                 let p = Encriptador.encode(Encriptador.decode(param[1])+Token)
-                console.log(p)
+                //console.log(p)
                 if (user.password === p) {
                     if (user.habilitado) {
                         res.status(200).send({ role: user.esSuper, _id: user._id, username: user.username })
