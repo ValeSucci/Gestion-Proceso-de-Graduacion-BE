@@ -4,19 +4,23 @@ var Schema = mongoose.Schema;
 
 
 
-var carta_schema = new Schema ({
+var carta_schema = new Schema({
     tipo: {
         required: true,
-        unique: true,
         type: String
     },
-    ubicacion: {
+    hash: {
         required: true,
         type: String
+    },
+    cargo: {
+        type: Boolean,
+        required: true
     }
+    //true: tutor, false: revisor
 });
 
 
-var Carta = mongoose.model("Carta",carta_schema);
+var Carta = mongoose.model("Carta", carta_schema);
 
 module.exports.Carta = Carta;

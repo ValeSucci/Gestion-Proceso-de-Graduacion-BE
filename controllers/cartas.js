@@ -1,42 +1,37 @@
 const Carta = require('../models/cartas').Carta;
 
+function obtenerCarta(req, res) {
+    Carta.findOne({ cargo: req.params.cargo }, (err, carta) => {
+        if (err || !carta) return res.status(500).send(err || 'error')
+        res.send(carta)
+    })
+}
 
-function insertCartas() {
-    var cartaT = new Carta({
-        tipo: "T",
-        ubicacion: "E:/ValeCosas/Práctica Interna/carta-tutor.doc"
+function insertarCarta(req, res) {
+    let carta = new Carta({
+        hash: req.body.hash,
+        tipo: req.body.tipo,
+        cargo: req.body.cargo
     })
-    cartaT.save().then(
-        ()=>{
-            console.log("Ubicacion carta tutor creada");
+    carta.save().then(
+        c => {
+            res.send(c)
         },
-        (error1)=>{
-            console.log(error1);
-        }
-    )
-    var cartaR = new Carta({
-        tipo: "R",
-        ubicacion: "E:/ValeCosas/Práctica Interna/carta-revisor.doc"
-    })
-    cartaR.save().then(
-        ()=>{
-            console.log("Ubicacion carta revisor creada");
-        },
-        (error2)=>{
-            console.log(error2);
+        err => {
+            res.status(500).send(err)
         }
     )
 }
 
-
-function updateCarta(req,res) {
-    Carta.findOne({tipo: req.params.tipo},(err,carta)=>{        
-        carta.ubicacion = req.body.ubicacion;   
-        carta.save((err)=>{
-            if(err) {
-                res.send(err)
+function updateCarta(req, res) {
+    Carta.findOne({ cargo: req.params.cargo }, (err, carta) => {
+        if (err || !carta) return res.status(500).send(err || 'error')
+        carta.hash = req.body.hash
+        carta.save((err) => {
+            if (err) {
+                res.status(500).send(err)
             } else {
-                res.send({mensaje:"Actualizacion Correcta"})
+                res.send({ mensaje: "Actualizacion Correcta" })
             }
         })
     })
@@ -44,4 +39,8 @@ function updateCarta(req,res) {
 }
 
 
-module.exports = {insertCartas,updateCarta}
+module.exports = {
+    insertarCarta,
+    updateCarta,
+    obtenerCarta
+}
